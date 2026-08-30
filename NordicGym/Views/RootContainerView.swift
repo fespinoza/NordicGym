@@ -25,19 +25,13 @@ struct RootContainerView: View {
             Tab {
                 Text("Hello World")
             } label: {
-                Label("Scan", systemImage: "qrcode")
+                Label("Check in", systemImage: "qrcode")
             }
 
             Tab {
                 Text("Hello World")
             } label: {
-                Label("Find Clubs", systemImage: "location.circle")
-            }
-
-            Tab {
-                Text("Hello World")
-            } label: {
-                Label("Activity", systemImage: "calendar.day.timeline.leading")
+                Label("Profile", systemImage: "person")
             }
         }
     }
