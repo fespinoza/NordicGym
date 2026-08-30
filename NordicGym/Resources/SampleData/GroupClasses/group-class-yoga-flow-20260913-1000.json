@@ -1,0 +1,36 @@
+{
+  "id": "yoga-flow-20260913-1000",
+  "gym": {
+    "id": "majorstuen",
+    "name": "Majorstuen"
+  },
+  "room": "Mind and Body Studio",
+  "instructor": {
+    "id": "ingrid-solberg",
+    "firstName": "Ingrid",
+    "lastName": "Solberg"
+  },
+  "startTime": "2026-09-13T10:00:00+02:00",
+  "durationInMinutes": 60,
+  "bookingState": "bookedOnWaitingList",
+  "availableSpots": 0,
+  "capacity": 20,
+  "friendsAttending": [],
+  "similarClasses": [
+    {
+      "id": "yoga-morning-20260912-0900",
+      "name": "Morning Yoga",
+      "instructorName": "Ingrid",
+      "location": "Majorstuen",
+      "dateTime": "2026-09-12T09:00:00+02:00",
+      "durationInMinutes": 60,
+      "bookingState": "notBooked",
+      "availableSpots": 12,
+      "imageURL": "https://images.pexels.com/photos/4587342/pexels-photo-4587342.jpeg?auto=compress&cs=tinysrgb&w=900"
+    }
+  ],
+  "name": "Yoga Flow",
+  "description": "Connect breath and movement through a flowing sequence of yoga poses. Ingrid will offer variations to help you develop balance, mobility, and strength.",
+  "imageURL": "https://images.pexels.com/photos/4587342/pexels-photo-4587342.jpeg?auto=compress&cs=tinysrgb&w=900",
+  "intensity": "medium"
+}

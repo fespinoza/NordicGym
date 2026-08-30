@@ -1,0 +1,46 @@
+{
+  "id": "strength-express-20260912-1200",
+  "gym": {
+    "id": "nydalen",
+    "name": "Nydalen"
+  },
+  "room": "Room 2",
+  "instructor": {
+    "id": "jonas-hansen",
+    "firstName": "Jonas",
+    "lastName": "Hansen"
+  },
+  "startTime": "2026-09-12T12:00:00+02:00",
+  "durationInMinutes": 30,
+  "bookingState": "notBooked",
+  "availableSpots": 1,
+  "capacity": 20,
+  "friendsAttending": [
+    {
+      "member": {
+        "id": "member-amina",
+        "firstName": "Amina",
+        "lastName": "Larsen",
+        "profilePicture": "https://randomuser.me/api/portraits/women/68.jpg"
+      },
+      "bookingState": "booked"
+    }
+  ],
+  "similarClasses": [
+    {
+      "id": "rowing-20260912-1830",
+      "name": "Rowing",
+      "instructorName": "Erling",
+      "location": "Ringnes Park",
+      "dateTime": "2026-09-12T18:30:00+02:00",
+      "durationInMinutes": 30,
+      "bookingState": "booked",
+      "availableSpots": 8,
+      "imageURL": "https://images.pexels.com/photos/4162486/pexels-photo-4162486.jpeg?auto=compress&cs=tinysrgb&w=900"
+    }
+  ],
+  "name": "Strength Express",
+  "description": "Make the most of 30 minutes with a focused full-body strength workout. Jonas will help you choose weights and build confidence with each exercise.",
+  "imageURL": "https://images.pexels.com/photos/3757943/pexels-photo-3757943.jpeg?auto=compress&cs=tinysrgb&w=900",
+  "intensity": "medium"
+}

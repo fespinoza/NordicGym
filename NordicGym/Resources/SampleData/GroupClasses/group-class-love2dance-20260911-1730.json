@@ -1,0 +1,36 @@
+{
+  "id": "love2dance-20260911-1730",
+  "gym": {
+    "id": "ringnes-park",
+    "name": "Ringnes Park"
+  },
+  "room": "Dance Studio",
+  "instructor": {
+    "id": "eva-larsen",
+    "firstName": "Eva",
+    "lastName": "Larsen"
+  },
+  "startTime": "2026-09-11T17:30:00+02:00",
+  "durationInMinutes": 60,
+  "bookingState": "booked",
+  "availableSpots": 3,
+  "capacity": 30,
+  "friendsAttending": [],
+  "similarClasses": [
+    {
+      "id": "dance-energy-20260913-1600",
+      "name": "Dance Energy",
+      "instructorName": "Eva",
+      "location": "Ringnes Park",
+      "dateTime": "2026-09-13T16:00:00+02:00",
+      "durationInMinutes": 50,
+      "bookingState": "notBookedOnWaitingList",
+      "availableSpots": 0,
+      "imageURL": "https://images.pexels.com/photos/5936039/pexels-photo-5936039.jpeg?auto=compress&cs=tinysrgb&w=900"
+    }
+  ],
+  "name": "Love2Dance",
+  "description": "Enjoy a full hour of music and movement with Eva. Explore fun dance combinations and build your stamina in a welcoming class for all experience levels.",
+  "imageURL": "https://images.pexels.com/photos/5936039/pexels-photo-5936039.jpeg?auto=compress&cs=tinysrgb&w=900",
+  "intensity": "medium"
+}

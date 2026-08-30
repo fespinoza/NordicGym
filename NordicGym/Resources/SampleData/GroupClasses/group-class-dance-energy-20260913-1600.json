@@ -1,0 +1,46 @@
+{
+  "id": "dance-energy-20260913-1600",
+  "gym": {
+    "id": "ringnes-park",
+    "name": "Ringnes Park"
+  },
+  "room": "Dance Studio",
+  "instructor": {
+    "id": "eva-larsen",
+    "firstName": "Eva",
+    "lastName": "Larsen"
+  },
+  "startTime": "2026-09-13T16:00:00+02:00",
+  "durationInMinutes": 50,
+  "bookingState": "notBookedOnWaitingList",
+  "availableSpots": 0,
+  "capacity": 30,
+  "friendsAttending": [
+    {
+      "member": {
+        "id": "member-mikkel",
+        "firstName": "Mikkel",
+        "lastName": "Solberg",
+        "profilePicture": "https://randomuser.me/api/portraits/men/75.jpg"
+      },
+      "bookingState": "booked"
+    }
+  ],
+  "similarClasses": [
+    {
+      "id": "love2dance-20260911-1730",
+      "name": "Love2Dance",
+      "instructorName": "Eva",
+      "location": "Ringnes Park",
+      "dateTime": "2026-09-11T17:30:00+02:00",
+      "durationInMinutes": 60,
+      "bookingState": "booked",
+      "availableSpots": 3,
+      "imageURL": "https://images.pexels.com/photos/5936039/pexels-photo-5936039.jpeg?auto=compress&cs=tinysrgb&w=900"
+    }
+  ],
+  "name": "Dance Energy",
+  "description": "Move to upbeat music in an energetic dance workout. Follow Eva through easy-to-learn combinations that build coordination and get your heart pumping.",
+  "imageURL": "https://images.pexels.com/photos/5936039/pexels-photo-5936039.jpeg?auto=compress&cs=tinysrgb&w=900",
+  "intensity": "high"
+}

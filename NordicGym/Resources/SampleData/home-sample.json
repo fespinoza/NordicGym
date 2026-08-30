@@ -1,0 +1,197 @@
+{
+  "items": [
+    {
+      "type": "upcomingClasses",
+      "content": [
+        {
+          "id": "love2dance-20260911-1730",
+          "name": "Love2Dance",
+          "instructorName": "Eva",
+          "location": "Ringnes Park",
+          "dateTime": "2026-09-11T17:30:00+02:00",
+          "durationInMinutes": 60,
+          "bookingState": "booked",
+          "availableSpots": 3,
+          "imageURL": "https://images.pexels.com/photos/5936039/pexels-photo-5936039.jpeg?auto=compress&cs=tinysrgb&w=900"
+        },
+        {
+          "id": "rowing-20260912-1830",
+          "name": "Rowing",
+          "instructorName": "Erling",
+          "location": "Ringnes Park",
+          "dateTime": "2026-09-12T18:30:00+02:00",
+          "durationInMinutes": 30,
+          "bookingState": "booked",
+          "availableSpots": 8,
+          "imageURL": "https://images.pexels.com/photos/4162486/pexels-photo-4162486.jpeg?auto=compress&cs=tinysrgb&w=900"
+        },
+        {
+          "id": "yoga-flow-20260913-1000",
+          "name": "Yoga Flow",
+          "instructorName": "Ingrid",
+          "location": "Majorstuen",
+          "dateTime": "2026-09-13T10:00:00+02:00",
+          "durationInMinutes": 60,
+          "bookingState": "bookedOnWaitingList",
+          "availableSpots": 0,
+          "imageURL": "https://images.pexels.com/photos/4587342/pexels-photo-4587342.jpeg?auto=compress&cs=tinysrgb&w=900"
+        }
+      ]
+    },
+    {
+      "type": "friendActivity",
+      "content": [
+        {
+          "id": "activity-1",
+          "member": {
+            "id": "member-erik",
+            "firstName": "Erik",
+            "lastName": "Hansen",
+            "profilePicture": "https://randomuser.me/api/portraits/men/32.jpg"
+          },
+          "message": "**Erik Hansen** did **Rowing**",
+          "date": "2026-09-10T06:41:00+02:00",
+          "isLiked": false
+        },
+        {
+          "id": "activity-2",
+          "member": {
+            "id": "member-nora",
+            "firstName": "Nora",
+            "lastName": "Johansen",
+            "profilePicture": "https://randomuser.me/api/portraits/women/44.jpg"
+          },
+          "message": "**Nora Johansen** did **Yoga Flow**",
+          "date": "2026-09-09T19:15:00+02:00",
+          "isLiked": true
+        },
+        {
+          "id": "activity-3",
+          "member": {
+            "id": "member-sandre",
+            "firstName": "Snadre",
+            "lastName": "Berg",
+            "profilePicture": "https://randomuser.me/api/portraits/men/46.jpg"
+          },
+          "message": "**Snadre Berg** did **Cycling Interval**",
+          "date": "2026-09-09T17:30:00+02:00",
+          "isLiked": false
+        },
+        {
+          "id": "activity-4",
+          "member": {
+            "id": "member-amina",
+            "firstName": "Amina",
+            "lastName": "Larsen",
+            "profilePicture": "https://randomuser.me/api/portraits/women/68.jpg"
+          },
+          "message": "**Amina Larsen** did **Full Body Strength**",
+          "date": "2026-09-09T12:45:00+02:00",
+          "isLiked": true
+        },
+        {
+          "id": "activity-5",
+          "member": {
+            "id": "member-mikkel",
+            "firstName": "Mikkel",
+            "lastName": "Solberg",
+            "profilePicture": "https://randomuser.me/api/portraits/men/75.jpg"
+          },
+          "message": "**Mikkel Solberg** did **Love2Dance**",
+          "date": "2026-09-08T18:30:00+02:00",
+          "isLiked": false
+        }
+      ]
+    },
+    {
+      "type": "joinYourFriends",
+      "content": [
+        {
+          "friend": {
+            "id": "member-sandre",
+            "firstName": "Snadre",
+            "lastName": "Berg",
+            "profilePicture": "https://randomuser.me/api/portraits/men/46.jpg"
+          },
+          "groupClass": {
+            "id": "cycling-20260911-1630",
+            "name": "Cycling Interval",
+            "instructorName": "Alex",
+            "location": "Akersgata",
+            "dateTime": "2026-09-11T16:30:00+02:00",
+            "durationInMinutes": 45,
+            "bookingState": "notBooked",
+            "availableSpots": 6,
+            "imageURL": "https://images.pexels.com/photos/4162595/pexels-photo-4162595.jpeg?auto=compress&cs=tinysrgb&w=900"
+          }
+        },
+        {
+          "friend": {
+            "id": "member-nora",
+            "firstName": "Nora",
+            "lastName": "Johansen",
+            "profilePicture": "https://randomuser.me/api/portraits/women/44.jpg"
+          },
+          "groupClass": {
+            "id": "yoga-morning-20260912-0900",
+            "name": "Morning Yoga",
+            "instructorName": "Ingrid",
+            "location": "Majorstuen",
+            "dateTime": "2026-09-12T09:00:00+02:00",
+            "durationInMinutes": 60,
+            "bookingState": "notBooked",
+            "availableSpots": 12,
+            "imageURL": "https://images.pexels.com/photos/4587342/pexels-photo-4587342.jpeg?auto=compress&cs=tinysrgb&w=900"
+          }
+        },
+        {
+          "friend": {
+            "id": "member-amina",
+            "firstName": "Amina",
+            "lastName": "Larsen",
+            "profilePicture": "https://randomuser.me/api/portraits/women/68.jpg"
+          },
+          "groupClass": {
+            "id": "strength-express-20260912-1200",
+            "name": "Strength Express",
+            "instructorName": "Jonas",
+            "location": "Nydalen",
+            "dateTime": "2026-09-12T12:00:00+02:00",
+            "durationInMinutes": 30,
+            "bookingState": "notBooked",
+            "availableSpots": 1,
+            "imageURL": "https://images.pexels.com/photos/3757943/pexels-photo-3757943.jpeg?auto=compress&cs=tinysrgb&w=900"
+          }
+        },
+        {
+          "friend": {
+            "id": "member-mikkel",
+            "firstName": "Mikkel",
+            "lastName": "Solberg",
+            "profilePicture": "https://randomuser.me/api/portraits/men/75.jpg"
+          },
+          "groupClass": {
+            "id": "dance-energy-20260913-1600",
+            "name": "Dance Energy",
+            "instructorName": "Eva",
+            "location": "Ringnes Park",
+            "dateTime": "2026-09-13T16:00:00+02:00",
+            "durationInMinutes": 50,
+            "bookingState": "notBookedOnWaitingList",
+            "availableSpots": 0,
+            "imageURL": "https://images.pexels.com/photos/5936039/pexels-photo-5936039.jpeg?auto=compress&cs=tinysrgb&w=900"
+          }
+        }
+      ]
+    },
+    {
+      "type": "featuredContent",
+      "content": {
+        "id": "88B995ED-C598-4622-AD58-0BD07B508471",
+        "title": "What are your objectives?",
+        "message": "Build strength, find your rhythm, or make more time for yourself. Explore classes that fit your goals and plan your next workout with a friend.",
+        "imageURL": "https://images.pexels.com/photos/4587371/pexels-photo-4587371.jpeg?auto=compress&cs=tinysrgb&w=900"
+      }
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "id": "cycling-20260911-1630",
+  "gym": {
+    "id": "akersgata",
+    "name": "Akersgata"
+  },
+  "room": "Cycling Studio",
+  "instructor": {
+    "id": "alex-berg",
+    "firstName": "Alex",
+    "lastName": "Berg"
+  },
+  "startTime": "2026-09-11T16:30:00+02:00",
+  "durationInMinutes": 45,
+  "bookingState": "notBooked",
+  "availableSpots": 6,
+  "capacity": 24,
+  "friendsAttending": [
+    {
+      "member": {
+        "id": "member-sandre",
+        "firstName": "Snadre",
+        "lastName": "Berg",
+        "profilePicture": "https://randomuser.me/api/portraits/men/46.jpg"
+      },
+      "bookingState": "booked"
+    }
+  ],
+  "similarClasses": [
+    {
+      "id": "rowing-20260912-1830",
+      "name": "Rowing",
+      "instructorName": "Erling",
+      "location": "Ringnes Park",
+      "dateTime": "2026-09-12T18:30:00+02:00",
+      "durationInMinutes": 30,
+      "bookingState": "booked",
+      "availableSpots": 8,
+      "imageURL": "https://images.pexels.com/photos/4162486/pexels-photo-4162486.jpeg?auto=compress&cs=tinysrgb&w=900"
+    }
+  ],
+  "name": "Cycling Interval",
+  "description": "Build endurance with energizing cycling intervals. Adjust your resistance as Alex guides you through climbs, sprints, and recovery periods.",
+  "imageURL": "https://images.pexels.com/photos/4162595/pexels-photo-4162595.jpeg?auto=compress&cs=tinysrgb&w=900",
+  "intensity": "high"
+}
