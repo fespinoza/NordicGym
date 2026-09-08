@@ -7,10 +7,8 @@
 
 import SwiftUI
 
-// TODO: import tagged
-
 struct GroupClassCardViewData {
-    let id: String
+    let id: GroupClassID
     let className: String
     let date: String
     let location: String
@@ -19,7 +17,7 @@ struct GroupClassCardViewData {
     let backgroundImage: Image
 
     static func previewValue(
-        id: String = "1234",
+        id: GroupClassID = .previewValue(),
         className: String = "Cycling Interval",
         date: String = "Tomorrow at 16:30",
         location: String = "Akersgata",

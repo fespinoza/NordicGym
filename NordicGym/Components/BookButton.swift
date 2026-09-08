@@ -7,12 +7,7 @@
 
 import SwiftUI
 
-enum BookingState: CaseIterable, Hashable {
-    case booked
-    case notBooked
-    case bookedOnWaitingList
-    case notBookedOnWaitingList
-
+extension BookingState {
     var nextOperationTitle: String {
         switch self {
         case .booked,

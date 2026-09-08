@@ -6,10 +6,10 @@
 //
 
 import SwiftUI
-// import Tagged
+import Tagged
 
-struct GroupClassRowViewData {
-    let id: String
+struct GroupClassRowViewData: Identifiable {
+    let id: GroupClassID
     let className: String
     let instructorName: String
     let location: String
@@ -31,7 +31,7 @@ struct GroupClassRowViewData {
 
 extension GroupClassRowViewData {
     static func previewValue(
-        id: String = "",
+        id: GroupClassID = .previewValue(),
         className: String = "Love2Dance",
         instructorName: String = "Eva",
         location: String = "Ringnes Park",
@@ -70,9 +70,7 @@ struct GroupClassRow: View {
 
     var body: some View {
         HStack(spacing: .spacingM) {
-            RoundedRectangle(cornerRadius: .cornerRadiusS)
-                .frame(width: 4)
-                .foregroundStyle(.accent)
+            Spacer(minLength: 4)
 
             HStack(alignment: .top, spacing: .spacingM) {
                 VStack(alignment: .leading) {
@@ -103,13 +101,19 @@ struct GroupClassRow: View {
                         .foregroundStyle(viewData.bookingState.foregroundColor)
                 }
         }
+        .padding(.vertical, .spacingXS)
+        .background(alignment: .leading) {
+            RoundedRectangle(cornerRadius: .cornerRadiusS)
+                .frame(width: 4)
+                .foregroundStyle(.accent)
+        }
     }
 }
 
 #Preview(traits: .sizeThatFitsLayout) {
     VStack {
         GroupClassRow(viewData: .previewValue())
-            .frame(maxHeight: 120)
+//            .frame(maxHeight: 120)
 
         GroupClassRow(
             viewData: .previewValue(
@@ -120,7 +124,7 @@ struct GroupClassRow: View {
                 )
             )
         )
-            .frame(maxHeight: 120)
+//            .frame(maxHeight: 120)
     }
     .padding()
 }
