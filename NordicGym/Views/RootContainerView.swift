@@ -11,7 +11,14 @@ struct RootContainerView: View {
     var body: some View {
         TabView {
             Tab {
-                Text("Hello World")
+                NavigationStack {
+                    HomeScreen(modules: [
+                        .upcomingWorkouts([.previewValue()]),
+                        .friendActivity([.previewValue(), .previewValue(), .previewValue()]),
+                        .joinYourFriends([.previewValue(), .previewValue(), .previewValue(), .previewValue()]),
+                        .contentCard(.previewValue())
+                    ])
+                }
             } label: {
                 Label("Home", systemImage: "house")
             }
@@ -39,4 +46,5 @@ struct RootContainerView: View {
 
 #Preview {
     RootContainerView()
+        .tint(Color.indigo)
 }

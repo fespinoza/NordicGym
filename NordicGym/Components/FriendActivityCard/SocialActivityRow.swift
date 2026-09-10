@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-struct SocialActivityRowViewData {
+struct SocialActivityRowViewData: Identifiable {
+    let id: UUID = .init()
     let profilePicture: Image?
     let message: LocalizedStringKey
     let time: String

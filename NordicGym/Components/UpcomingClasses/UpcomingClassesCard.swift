@@ -23,7 +23,7 @@ struct UpcomingClassesCard: View {
                     Text(section.title)
                         .font(.caption.bold())
 
-                    VStack(alignment: .leading) {
+                    VStack(alignment: .leading, spacing: .spacingM) {
                         ForEach(section.classes) { row in
                             GroupClassRow(viewData: row)
                         }
@@ -31,12 +31,7 @@ struct UpcomingClassesCard: View {
                 }
             }
         }
-        .padding(.spacingM)
-        .background {
-            RoundedRectangle(cornerRadius: .cornerRadiusM)
-                .foregroundStyle(Color.cardBackground)
-
-        }
+        .cardStyle()
     }
 }
 
@@ -48,4 +43,16 @@ struct UpcomingClassesCard: View {
         ]
     )
     .padding()
+}
+
+extension UpcomingClassesSectionViewData {
+    static func previewValue(
+        title: String = "Tomorrow",
+        classes: [GroupClassRowViewData] = [.previewValue(), .previewValue()]
+    ) -> Self {
+        .init(
+            title: title,
+            classes: classes
+        )
+    }
 }
