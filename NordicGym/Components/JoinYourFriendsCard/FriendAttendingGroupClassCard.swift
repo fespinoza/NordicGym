@@ -38,7 +38,7 @@ struct FriendAttendingGroupClassCard: View {
         .padding(.spacingXS)
         .background {
             RoundedRectangle(cornerRadius: .cornerRadiusM + .spacingXS)
-                .foregroundStyle(Color.gray) // TODO
+                .foregroundStyle(Color.joinYourFriendsBackground)
         }
     }
 }

@@ -30,7 +30,6 @@ struct BookScreen: View {
                                 }
                             }
                             .contentMargins(.horizontal, .spacingM)
-                            .scrollIndicators(.hidden)
                         }
 
                     case let .contentCard(viewData):
@@ -43,20 +42,22 @@ struct BookScreen: View {
                             ScrollView(.horizontal) {
                                 HStack(alignment: .top, spacing: .spacingXS) {
                                     ForEach(challenges.enumerated(), id: \.offset) { _, viewData in
-                                        JoinChallengeCard(viewData: viewData, size: .compact)
+                                        JoinChallengeCard(viewData: viewData)
                                     }
                                 }
                             }
                             .contentMargins(.horizontal, .spacingM)
-                            .scrollIndicators(.hidden)
                         }
                     }
                 }
+
+                Spacer(minLength: 80)
             }
             .padding(.vertical, .spacingL)
         }
-        .background(Color.bookBackground)
+        .background(Color(uiColor: .secondarySystemBackground))
         .navigationTitle("Book")
+        .toolbarTitleDisplayMode(.inlineLarge)
     }
 }
 

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct JoinChallengeCardViewData {
     let timeRemaining: String
+    let badgeColor: Color
     let title: String
     let text: String
 }
@@ -16,11 +17,13 @@ struct JoinChallengeCardViewData {
 extension JoinChallengeCardViewData {
     static func previewValue(
         timeRemaining: String = "38 days left",
+        badgeColor: Color = .red,
         title: String = "Choose to move",
         text: String = "Train 8 times at our clubs"
     ) -> Self {
         .init(
             timeRemaining: timeRemaining,
+            badgeColor: badgeColor,
             title: title,
             text: text
         )
@@ -28,66 +31,55 @@ extension JoinChallengeCardViewData {
 }
 
 struct JoinChallengeCard: View {
-    enum Size {
-        case regular
-        case compact
-    }
-
     let viewData: JoinChallengeCardViewData
-    var size: Size = .regular
-    var onJoin: () -> Void = {}
-
-    @ScaledMetric(relativeTo: .title2) private var fontSize: CGFloat = 26
-    private var imageSize: CGFloat { size == .compact ? 84 : 132 }
 
     var body: some View {
-        VStack(spacing: size == .compact ? .spacingM : .spacingXL) {
+        VStack {
+            Spacer(minLength: 60)
+
+            VStack(alignment: .center, spacing: .spacingXS) {
+                Image(systemName: "medal.fill")
+                    .font(.system(size: 54))
+                    .padding(.spacingXS)
+                    .background {
+                        Circle()
+                            .foregroundStyle(viewData.badgeColor)
+                    }
+
+                Text(viewData.title)
+                    .bold()
+
+                Text(viewData.text)
+
+            }
+            .multilineTextAlignment(.center)
+
+            Spacer(minLength: 30)
+
+            Button(action: {}) {
+                Text("Join")
+            }
+            .buttonStyle(.borderedProminent)
+        }
+        .frame(maxWidth: 180)
+        .fixedSize(horizontal: false, vertical: true)
+        .cardStyle()
+        .overlay(alignment: .topLeading) {
             Text(viewData.timeRemaining)
-                .bold()
-                .padding(.horizontal, .spacingXXS)
-                .padding(.vertical, .spacingXXS)
+                .padding(.spacingXS)
                 .foregroundStyle(.onAccent)
                 .background {
-                    RoundedRectangle(cornerRadius: .cornerRadiusM)
-                        .foregroundStyle(Color.accentSecondary)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-
-            VStack(spacing: size == .compact ? .spacingXS : .spacingM) {
-                Image(systemName: "medal.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .padding(size == .compact ? .spacingXS : .spacingM)
-                    .frame(width: imageSize, height: imageSize)
+                    UnevenRoundedRectangle(
+                        topLeadingRadius: 0,
+                        bottomLeadingRadius: 0,
+                        bottomTrailingRadius: .cornerRadiusS,
+                        topTrailingRadius: .cornerRadiusS,
+                        style: .continuous
+                    )
                     .foregroundStyle(Color.accent)
-                    .background { Circle().foregroundStyle(.white) }
-                    .accessibilityHidden(true)
-
-                VStack(spacing: .spacingXXXS) {
-                    Text(viewData.title)
-                        .bold()
-                    Text(viewData.text)
                 }
-                .multilineTextAlignment(.center)
-                .fixedSize(horizontal: false, vertical: true)
-                .frame(maxWidth: .infinity)
-            }
-
-            Button(action: onJoin) {
-                Text("Join")
-                    .bold()
-            }
-            .foregroundStyle(.onAccent)
-            .buttonStyle(.borderedProminent)
-            .tint(.accent)
-            .buttonBorderShape(.capsule)
+                .padding(.top, .spacingM)
         }
-        .font(size == .compact ? .callout : .system(size: fontSize))
-        .padding(size == .compact ? .spacingXS : .spacingM)
-        .frame(width: size == .compact ? 200 : 312)
-        .frame(minHeight: size == .compact ? 278 : 432)
-        .background { Color.cardBackground }
-        .clipShape(RoundedRectangle(cornerRadius: size == .compact ? .cornerRadiusM : .cornerRadiusL))
     }
 }
 

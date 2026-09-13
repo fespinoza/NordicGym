@@ -3,6 +3,16 @@
     {
       "filename" : "NordicGYM.pdf",
       "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "Logo - Dark.pdf",
+      "idiom" : "universal"
     }
   ],
   "info" : {

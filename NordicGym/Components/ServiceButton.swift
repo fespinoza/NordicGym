@@ -15,12 +15,14 @@ struct ServiceButtonViewData {
 struct ServiceButton: View {
     let viewData: ServiceButtonViewData
 
-    private let iconAreaSize: CGFloat = 50
+    private let iconAreaSize: CGFloat = 70
 
     var body: some View {
         Button(action: {}) {
             VStack {
                 Image(systemName: viewData.iconName)
+                    .font(.title)
+                    .padding(.spacingXS)
                     .frame(width: iconAreaSize, height: iconAreaSize)
                     .background {
                         RoundedRectangle(cornerRadius: .cornerRadiusM)

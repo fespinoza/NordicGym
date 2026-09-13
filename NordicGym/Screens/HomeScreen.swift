@@ -58,8 +58,11 @@ struct HomeScreen: View {
                             .padding(.horizontal, .spacingM)
                     }
                 }
+
+                Spacer(minLength: 80)
             }
         }
+        .background(Color(uiColor: .secondarySystemBackground))
         .toolbar {
             ToolbarItem(placement: .navigation) {
                 Image(.nordicGymLogo)
