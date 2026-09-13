@@ -24,7 +24,9 @@ struct RootContainerView: View {
             }
 
             Tab {
-                Text("Hello World")
+                NavigationStack {
+                    BookScreen(modules: BookModuleViewData.previewModules)
+                }
             } label: {
                 Label("Book", systemImage: "clock")
             }
