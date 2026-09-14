@@ -45,6 +45,7 @@ extension BookingState {
 struct BookButton {
     let bookingState: BookingState
     let size: Size
+    var action: () -> Void = {}
 }
 
 extension BookButton {
@@ -56,7 +57,7 @@ extension BookButton {
 
 extension BookButton: View {
     var body: some View {
-        Button(action: {}) {
+        Button(action: action) {
             Text(bookingState.nextOperationTitle)
         }
         .foregroundStyle(bookingState.textColor)

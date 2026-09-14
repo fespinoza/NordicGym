@@ -10,6 +10,8 @@ enum BookModuleViewData {
 
 struct BookScreen: View {
     let modules: [BookModuleViewData]
+    @State private var selectedClass: GroupClassCardViewData?
+    @State private var showsClassDetail = false
 
     var body: some View {
         ScrollView(.vertical) {
@@ -25,7 +27,13 @@ struct BookScreen: View {
                             ScrollView(.horizontal) {
                                 HStack(spacing: .spacingXS) {
                                     ForEach(classes, id: \.id) { viewData in
-                                        GroupClassCard(viewData: viewData)
+                                        GroupClassCard(viewData: viewData) {
+                                            openDetail(viewData)
+                                        }
+                                        .onTapGesture { openDetail(viewData) }
+                                        .accessibilityAction(named: "View class details") {
+                                            openDetail(viewData)
+                                        }
                                     }
                                 }
                             }
@@ -58,6 +66,19 @@ struct BookScreen: View {
         .background(Color(uiColor: .secondarySystemBackground))
         .navigationTitle("Book")
         .toolbarTitleDisplayMode(.inlineLarge)
+        .navigationDestination(isPresented: $showsClassDetail) {
+            if let selectedClass {
+                GroupClassDetailScreen(viewData: .previewValue(
+                    groupClass: selectedClass,
+                    room: "Cycling Studio"
+                ))
+            }
+        }
+    }
+
+    private func openDetail(_ groupClass: GroupClassCardViewData) {
+        selectedClass = groupClass
+        showsClassDetail = true
     }
 }
 

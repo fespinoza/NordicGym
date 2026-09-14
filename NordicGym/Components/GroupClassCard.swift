@@ -39,6 +39,7 @@ struct GroupClassCardViewData {
 
 struct GroupClassCard: View {
     let viewData: GroupClassCardViewData
+    var onBook: () -> Void = {}
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -55,7 +56,7 @@ struct GroupClassCard: View {
 
             Spacer()
 
-            BookButton(bookingState: viewData.bookingState, size: .small)
+            BookButton(bookingState: viewData.bookingState, size: .small, action: onBook)
                 .frame(maxWidth: .infinity, alignment: .trailing)
         }
         .padding(.spacingS)
