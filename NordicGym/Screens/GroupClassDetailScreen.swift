@@ -7,6 +7,11 @@ struct GroupClassDetailViewData {
     let bookedSpots: Int
     let capacity: Int
     let attendingFriends: [String]
+    let description: String
+    let intensity: ClassIntensity
+    let categoryName: String
+    let categoryImage: Image
+    let similarClasses: [SimilarClassViewData]
 
     var availableSpots: Int { max(0, capacity - bookedSpots) }
 
@@ -19,13 +24,28 @@ struct GroupClassDetailViewData {
         ),
         room: String = "Performance Zone"
     ) -> Self {
-        .init(
+        let isCycling = groupClass.className.localizedCaseInsensitiveContains("cycling")
+        return .init(
             groupClass: groupClass,
             instructorName: "Mai Emilie Thi Nguyen",
             room: room,
             bookedSpots: 23,
             capacity: 24,
-            attendingFriends: ["Alex Morgan"]
+            attendingFriends: ["Alex Morgan"],
+            description: isCycling
+                ? "Challenge your endurance in an energising indoor cycling session. Alternate focused intervals with recovery periods, guided by your instructor and motivating music. Adjust the resistance to suit your experience and enjoy training together."
+                : "Performance HYROX combines running with eight workout disciplines inspired by a HYROX race. Expect a challenging mix of endurance and strength, including rowing, SkiErg and burpees. This class is suited to people with some training experience and is available at selected clubs.",
+            intensity: .intense,
+            categoryName: isCycling ? "Cycling" : "Performance",
+            categoryImage: isCycling ? Image(.cycling) : Image(.crossfit),
+            similarClasses: [
+                .init(id: "similar-1", day: "Tomorrow", time: "19:00", duration: "45 min",
+                      title: isCycling ? "Cycling Interval" : "Performance HIIT – I Go, You Go",
+                      instructor: "Stig Unhammer", location: groupClass.location, availableSpots: 1),
+                .init(id: "similar-2", day: "Saturday, 19 September", time: "12:15", duration: "45 min",
+                      title: isCycling ? "Cycling Endurance" : "Performance HIIT – I Go, You Go",
+                      instructor: "Cathrine Liu", location: groupClass.location, availableSpots: 21)
+            ]
         )
     }
 }
@@ -33,8 +53,12 @@ struct GroupClassDetailViewData {
 struct GroupClassDetailScreen: View {
     let viewData: GroupClassDetailViewData
     var onBook: (() -> Void)? = nil
+    var onBookSimilarClass: ((SimilarClassViewData) -> Void)? = nil
+    var onViewSchedule: (() -> Void)? = nil
 
     @State private var showsBookingNotice = false
+    @State private var showsScheduleNotice = false
+    @State private var showsBookingBar = false
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     private let highlight = Color(red: 1, green: 0.32, blue: 0.19)
@@ -48,17 +72,44 @@ struct GroupClassDetailScreen: View {
                 VStack(alignment: .leading, spacing: .spacingXL) {
                     classInformation
                     booking
+                        .onGeometryChange(for: Bool.self) { geometry in
+                            geometry.frame(in: .named("classDetailScroll")).maxY < 0
+                        } action: { showsBookingBar = $0 }
                     guidance
                 }
                 .padding(.spacingM)
                 .padding(.top, .spacingS)
 
-                if !viewData.attendingFriends.isEmpty {
-                    friends
-                        .padding(.top, .spacingXS)
-                }
+                friends
+                    .padding(.top, .spacingXS)
+
+                GroupClassAdditionalInformation(
+                    viewData: viewData,
+                    onBook: { groupClass in
+                        if let onBookSimilarClass {
+                            onBookSimilarClass(groupClass)
+                        } else {
+                            showsBookingNotice = true
+                        }
+                    },
+                    onViewSchedule: {
+                        if let onViewSchedule {
+                            onViewSchedule()
+                        } else {
+                            showsScheduleNotice = true
+                        }
+                    }
+                )
+                .padding(.spacingM)
+                .padding(.top, .spacingL)
             }
             .padding(.bottom, .spacingL)
+        }
+        .coordinateSpace(name: "classDetailScroll")
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            if showsBookingBar {
+                persistentBookingBar
+            }
         }
         .background(.black)
         .foregroundStyle(.white)
@@ -73,6 +124,11 @@ struct GroupClassDetailScreen: View {
                     Label("Share class", systemImage: "square.and.arrow.up")
                 }
             }
+        }
+        .alert("Sample schedule", isPresented: $showsScheduleNotice) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text("The full timetable is not connected yet. The classes shown here are sample sessions.")
         }
         .alert("Sample booking", isPresented: $showsBookingNotice) {
             Button("OK", role: .cancel) {}
@@ -138,13 +194,7 @@ struct GroupClassDetailScreen: View {
 
     private var booking: some View {
         VStack(alignment: .leading, spacing: .spacingM) {
-            Button {
-                if let onBook {
-                    onBook()
-                } else {
-                    showsBookingNotice = true
-                }
-            } label: {
+            Button(action: bookClass) {
                 Text(bookingTitle)
                     .font(.title3.bold())
                     .frame(maxWidth: .infinity)
@@ -182,7 +232,7 @@ struct GroupClassDetailScreen: View {
     }
 
     private var friends: some View {
-        VStack(spacing: .spacingM) {
+        VStack(alignment: .leading, spacing: .spacingL) {
             ForEach(viewData.attendingFriends, id: \.self) { name in
                 HStack(spacing: .spacingS) {
                     Image(systemName: "person.crop.circle.fill")
@@ -196,9 +246,59 @@ struct GroupClassDetailScreen: View {
                 }
                 .font(.subheadline)
             }
+
+            ShareLink(item: "Join me for \(viewData.groupClass.className) — \(viewData.groupClass.date) at \(viewData.groupClass.location).") {
+                Text("Invite friends")
+                    .font(.subheadline.bold())
+                    .padding(.spacingS)
+                    .overlay(RoundedRectangle(cornerRadius: .cornerRadiusS).stroke(.white, lineWidth: 1))
+            }
+            .tint(.white)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.spacingM)
         .background(Color(red: 0.04, green: 0.12, blue: 0.18))
+    }
+
+    private func bookClass() {
+        if let onBook {
+            onBook()
+        } else {
+            showsBookingNotice = true
+        }
+    }
+
+    private var persistentBookingBar: some View {
+        let layout = dynamicTypeSize.isAccessibilitySize
+            ? AnyLayout(VStackLayout(alignment: .leading, spacing: .spacingS))
+            : AnyLayout(HStackLayout(spacing: .spacingM))
+
+        return layout {
+            VStack(alignment: .leading, spacing: .spacingXXS) {
+                Text("\(viewData.bookedSpots)/\(viewData.capacity) spots booked")
+                    .font(.subheadline.bold())
+                Text(viewData.availableSpots == 1 ? "1 spot available" : "\(viewData.availableSpots) spots available")
+                    .font(.caption)
+                    .foregroundStyle(.mint)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+
+            Button(action: bookClass) {
+                Text(bookingTitle)
+                    .font(.headline)
+                    .padding(.horizontal, .spacingM)
+                    .padding(.vertical, .spacingS)
+                    .foregroundStyle(.black)
+                    .background(.white, in: RoundedRectangle(cornerRadius: .cornerRadiusS))
+            }
+            .buttonStyle(.plain)
+        }
+        .padding(.spacingM)
+        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: .cornerRadiusL))
+        .overlay(RoundedRectangle(cornerRadius: .cornerRadiusL).stroke(.white.opacity(0.2)))
+        .environment(\.colorScheme, .dark)
+        .padding(.horizontal, .spacingM)
+        .padding(.vertical, .spacingXS)
     }
 
     private func informationRow(_ text: String, icon: String, color: Color = .white) -> some View {

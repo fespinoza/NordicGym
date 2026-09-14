@@ -37,7 +37,50 @@ typealias GroupClassID = Tagged<GroupClass, String>
 
 struct GroupClass: DTO {
     let id: GroupClassID
+
+    let gym: Gym
+    let room: String?
+    let instructor: Instructor
+    let startTime: Date
+    let durationInMinutes: Int
+    let bookingState: BookingState
+    let availableSpots: Int
+    let capacity: Int
+
+    let friendsAttending: [FriendAttending]
+
+    let similarClasses: [UpcomingGroupClass]
+
     let name: String
+    let description: String
+    let imageURL: URL?
+    let intensity: Intensity
+
+    enum Intensity: String, Codable {
+        case low
+        case medium
+        case high
+    }
+}
+
+struct FriendAttending: DTO {
+    var id: MemberID { member.id }
+    let member: Member
+    let bookingState: BookingState
+}
+
+typealias GymID = Tagged<Gym, String>
+struct Gym: DTO {
+    let id: GymID
+    let name: String
+}
+
+typealias InstructorID = Tagged<Instructor, String>
+
+struct Instructor: DTO {
+    let id: InstructorID
+    let firstName: String
+    let lastName: String
 }
 
 struct UpcomingGroupClass: DTO {
@@ -45,7 +88,7 @@ struct UpcomingGroupClass: DTO {
     let name: String
     let instructorName: String
     let location: String
-    let dateTime: Date
+    let dateTime: Date // TODO: startTime
     let durationInMinutes: Int
     let bookingState: BookingState
     let availableSpots: Int
@@ -117,6 +160,61 @@ enum HomeModule: PolymorphicDTO {
 
 struct HomeContent: Decodable {
     let items: [HomeModule]
+}
+
+struct BookContent: Decodable {
+    let items: [BookModule]
+}
+
+enum BookModule: PolymorphicDTO {
+    static func dtoType(for typeName: String) throws -> BookModuleType {
+        guard let type = BookModuleType(rawValue: typeName) else {
+            throw PolymorphicDecodingError.unknownType(typeName)
+        }
+
+        return type
+    }
+
+    static func tryDecode(dtoType: BookModuleType, container: DecodingContainer) throws -> BookModule {
+        switch dtoType {
+        case .recommendedClasses:
+            let content = try container.decode([UpcomingGroupClass].self, forKey: .content)
+            return .recommendedClasses(content)
+
+        case .featuredContent:
+            let content = try container.decode(FeaturedContent.self, forKey: .content)
+            return .featuredContent(content)
+
+        case .challenges:
+            let content = try container.decode([Challenge].self, forKey: .content)
+            return .challenges(content)
+        }
+    }
+
+    typealias DTOTypeDeclaration = BookModuleType
+
+
+    case recommendedClasses([UpcomingGroupClass])
+    case featuredContent(FeaturedContent)
+    case challenges([Challenge])
+
+    enum BookModuleType: String {
+        case recommendedClasses
+        case featuredContent
+        case challenges
+    }
+
+
+}
+
+typealias ChallengeID = Tagged<Challenge, String>
+
+struct Challenge: DTO {
+    let id: ChallengeID
+    let title: String
+    let text: String
+    let lastStartTime: Date
+    let badgeColor: String
 }
 
 // MARK: - Polymorphism
