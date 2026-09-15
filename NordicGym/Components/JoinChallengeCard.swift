@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct JoinChallengeCardViewData {
+struct JoinChallengeCardViewData: Equatable {
     let timeRemaining: String
     let badgeColor: Color
     let title: String
@@ -15,6 +15,15 @@ struct JoinChallengeCardViewData {
 }
 
 extension JoinChallengeCardViewData {
+    init(dto: Challenge) {
+        self.init(
+            timeRemaining: dto.lastStartTime.formatted(.relative(presentation: .named, unitsStyle: .wide)),
+            badgeColor: Color.accent, // TODO: make colors from hex and use dto.badgeColor
+            title: dto.title,
+            text: dto.text
+        )
+    }
+
     static func previewValue(
         timeRemaining: String = "38 days left",
         badgeColor: Color = .red,

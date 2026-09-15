@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct GroupClassCardViewData {
+struct GroupClassCardViewData: Equatable {
     let id: GroupClassID
     let className: String
     let date: String
@@ -33,6 +33,20 @@ struct GroupClassCardViewData {
             duration: duration,
             bookingState: bookingState,
             backgroundImage: backgroundImage
+        )
+    }
+}
+
+extension GroupClassCardViewData {
+    init(dto: UpcomingGroupClass) {
+        self.init(
+            id: dto.id,
+            className: dto.name,
+            date: dto.dateTime.formatted(.relative(presentation: .named, unitsStyle: .wide)),
+            location: dto.location,
+            duration: dto.durationInMinutes.formatted() + " min",
+            bookingState: dto.bookingState,
+            backgroundImage: Image(.cycling)
         )
     }
 }

@@ -7,13 +7,21 @@
 
 import SwiftUI
 
-struct ContentCardViewData {
+struct ContentCardViewData: Equatable {
     let title: String
     let text: String
     let image: Image?
 }
 
 extension ContentCardViewData {
+    init(dto: FeaturedContent) {
+        self.init(
+            title: dto.title,
+            text: dto.title,
+            image: nil
+        )
+    }
+
     static func previewValue(
         title: String = "What are your objectives?",
         text: String = """

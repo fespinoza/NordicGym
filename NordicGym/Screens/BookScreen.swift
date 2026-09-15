@@ -1,14 +1,46 @@
 import SwiftUI
 import Tagged
 
-enum BookModuleViewData {
+enum BookModuleViewData: Equatable {
     case services([ServiceButtonViewData])
     case recommendedClasses([GroupClassCardViewData])
     case contentCard(ContentCardViewData)
     case challenges([JoinChallengeCardViewData])
+
+    static func buildModules(from bookModules: [BookModule]) -> [BookModuleViewData] {
+        bookModules.map { module in
+            switch module {
+            case let .recommendedClasses(dto):
+                let groupClasses = dto.map { GroupClassCardViewData(dto: $0) }
+                return .recommendedClasses(groupClasses)
+
+            case let .featuredContent(featuredContent):
+                return .contentCard(.init(dto: featuredContent))
+
+            case .challenges(let array):
+                let challenges = array.map { JoinChallengeCardViewData(dto: $0) }
+                return .challenges(challenges)
+            }
+        }
+    }
 }
 
 struct BookScreen: View {
+    @State var viewData: BasicLoadingState<[BookModuleViewData]> = .idle
+
+    @Environment(\.networkingClient.fetchBookContent) var fetchBookContent
+
+    var body: some View {
+        BasicStateView(state: $viewData) { viewData in
+            BookView(modules: viewData)
+        } fetchData: {
+            let content = try await fetchBookContent()
+            return BookModuleViewData.buildModules(from: content)
+        }
+    }
+}
+
+struct BookView: View {
     let modules: [BookModuleViewData]
     @State private var selectedClass: GroupClassCardViewData?
     @State private var showsClassDetail = false
@@ -110,6 +142,6 @@ extension BookModuleViewData {
 
 #Preview {
     NavigationStack {
-        BookScreen(modules: BookModuleViewData.previewModules)
+        BookView(modules: BookModuleViewData.previewModules)
     }
 }

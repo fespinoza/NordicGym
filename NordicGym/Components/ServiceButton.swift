@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ServiceButtonViewData {
+struct ServiceButtonViewData: Equatable {
     let iconName: String
     let title: String
 }
