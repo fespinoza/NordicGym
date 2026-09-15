@@ -140,6 +140,6 @@ extension BookModuleViewData {
 
 #Preview {
     NavigationStack {
-        BookView(modules: BookModuleViewData.previewModules)
+        BookScreen()
     }
 }

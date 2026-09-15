@@ -123,11 +123,6 @@ struct HomeView: View {
 
 #Preview {
     NavigationStack {
-        HomeView(modules: [
-            .upcomingWorkouts([.previewValue()]),
-            .friendActivity([.previewValue(), .previewValue(), .previewValue()]),
-            .joinYourFriends([.previewValue(), .previewValue(), .previewValue(), .previewValue()]),
-            .contentCard(.previewValue())
-        ])
+        HomeScreen()
     }
 }

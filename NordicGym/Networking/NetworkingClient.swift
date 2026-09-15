@@ -14,9 +14,13 @@ struct NetworkingClient {
 
     static func fauxLive() -> Self {
         .init {
-            throw NetworkingError.notImplemented
+            try await Task.sleep(for: .seconds((1...3).randomElement() ?? 1))
+            let homeContent: HomeContent = try fixtureFile(fileName: "home-sample")
+            return homeContent.items
         } fetchBookContent: {
-            throw NetworkingError.notImplemented
+            try await Task.sleep(for: .seconds((1...3).randomElement() ?? 1))
+            let bookContent: BookContent = try fixtureFile(fileName: "book-sample")
+            return bookContent.items
         } fetchGroupClass: { _ in
             throw NetworkingError.notImplemented
         }
@@ -31,10 +35,21 @@ struct NetworkingClient {
         self.fetchBookContent = fetchBookContent
         self.fetchGroupClass = fetchGroupClass
     }
+
+    private static func fixtureFile<Model: Decodable>(fileName: String) throws -> Model {
+        guard let url = Bundle.main.url(forResource: fileName, withExtension: "json") else {
+            throw NetworkingError.fixtureFileNotFound("\(fileName).json")
+        }
+        let data = try Data(contentsOf: url)
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        return try decoder.decode(Model.self, from: data)
+    }
 }
 
 enum NetworkingError: Error {
     case notImplemented
+    case fixtureFileNotFound(String)
 }
 
 import SwiftUI

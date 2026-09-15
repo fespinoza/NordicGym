@@ -1,4 +1,3 @@
-import Config
 import OSLog
 import SwiftUI
 
@@ -52,7 +51,7 @@ public struct CustomAsyncImage<Output: View>: View {
                             Image(systemName: "xmark.circle")
                                 .font(.system(size: 50))
 
-                            Text("Couldn't load image", bundle: .module, comment: "Error case for image loading")
+                            Text("Couldn't load image", comment: "Error case for image loading")
                         }
                     }
             case let .image(image):

@@ -63,6 +63,7 @@ public struct BasicStateView<ViewData: Equatable, LoadingContent: View, DataCont
             let viewData = try await fetchData()
             withAnimation { state = .dataLoaded(viewData) }
         } catch {
+            print(error)
             withAnimation { state = .error(error) }
         }
     }

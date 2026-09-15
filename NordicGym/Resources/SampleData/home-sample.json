@@ -35,17 +35,6 @@
           "bookingState": "bookedOnWaitingList",
           "availableSpots": 0,
           "imageURL": "https://images.pexels.com/photos/4587342/pexels-photo-4587342.jpeg?auto=compress&cs=tinysrgb&w=900"
-        },
-        {
-          "id": "strength-20260914-1715",
-          "name": "Full Body Strength",
-          "instructorName": "Jonas",
-          "location": "Akersgata",
-          "dateTime": "2026-09-14T17:15:00+02:00",
-          "durationInMinutes": 45,
-          "bookingState": "booked",
-          "availableSpots": 1,
-          "imageURL": "https://images.pexels.com/photos/3757943/pexels-photo-3757943.jpeg?auto=compress&cs=tinysrgb&w=900"
         }
       ]
     },
