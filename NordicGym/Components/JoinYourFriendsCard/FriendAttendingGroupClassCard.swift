@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct FriendAttendingViewData: Identifiable {
+struct FriendAttendingViewData: Identifiable, Equatable {
     let id: UUID = .init()
     let friendInfo: FriendInfo
     let groupClass: GroupClassCardViewData
 
-    struct FriendInfo {
+    struct FriendInfo: Equatable {
         let profileImage: Image
         let message: String
     }
@@ -48,6 +48,16 @@ struct FriendAttendingGroupClassCard: View {
 }
 
 extension FriendAttendingViewData {
+    init(dto: FriendAttendingGroupClass) {
+        self.init(
+            friendInfo: .init(
+                profileImage: Image(systemName: "person.crop.circle.fill"),
+                message: "\(dto.friend.firstName) is going"
+            ),
+            groupClass: .init(dto: dto.groupClass)
+        )
+    }
+
     static func previewValue(
         friendInfo: FriendInfo = .previewValue(),
         groupClass: GroupClassCardViewData = .previewValue()

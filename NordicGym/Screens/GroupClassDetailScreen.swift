@@ -1,5 +1,30 @@
 import SwiftUI
 
+struct GroupClassViewData {
+    let id: GroupClassID
+    let className: String
+    let backgroundImage: Image
+    let description: String
+    let intensity: ClassIntensity
+    let categoryName: String
+    let categoryImage: Image
+
+    let date: String
+    let duration: String
+    let location: String
+    let room: String
+    let instructorName: String
+
+    let bookingState: BookingState
+    let bookedSpots: Int
+    let capacity: Int
+    var availableSpots: Int { max(0, capacity - bookedSpots) }
+
+    let attendingFriends: [String]
+
+    let similarClasses: [SimilarClassViewData]
+}
+
 struct GroupClassDetailViewData {
     let groupClass: GroupClassCardViewData
     let instructorName: String

@@ -12,12 +12,7 @@ struct RootContainerView: View {
         TabView {
             Tab {
                 NavigationStack {
-                    HomeScreen(modules: [
-                        .upcomingWorkouts([.previewValue()]),
-                        .friendActivity([.previewValue(), .previewValue(), .previewValue()]),
-                        .joinYourFriends([.previewValue(), .previewValue(), .previewValue(), .previewValue()]),
-                        .contentCard(.previewValue())
-                    ])
+                    HomeScreen()
                 }
             } label: {
                 Label("Home", systemImage: "house")

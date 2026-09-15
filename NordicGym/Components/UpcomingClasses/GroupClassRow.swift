@@ -8,7 +8,7 @@
 import SwiftUI
 import Tagged
 
-struct GroupClassRowViewData: Identifiable {
+struct GroupClassRowViewData: Identifiable, Equatable {
     let id: GroupClassID
     let className: String
     let instructorName: String
@@ -22,7 +22,7 @@ struct GroupClassRowViewData: Identifiable {
         case bookedOnWaitingList(message: String)
     }
 
-    struct BookingStateViewData {
+    struct BookingStateViewData: Equatable {
         let message: String
         let imageName: String
         let foregroundColor: Color
@@ -30,6 +30,34 @@ struct GroupClassRowViewData: Identifiable {
 }
 
 extension GroupClassRowViewData {
+    init(dto: UpcomingGroupClass) {
+        let bookingState: BookingStateViewData
+        switch dto.bookingState {
+        case .booked:
+            bookingState = .init(message: "Booked", imageName: "checkmark", foregroundColor: .success)
+        case .bookedOnWaitingList:
+            bookingState = .init(message: "On the waiting list", imageName: "clock", foregroundColor: .waitingList)
+        case .notBooked:
+            bookingState = .init(
+                message: dto.availableSpots.formatted() + " spots available",
+                imageName: "plus",
+                foregroundColor: .accent
+            )
+        case .notBookedOnWaitingList:
+            bookingState = .init(message: "Join the waiting list", imageName: "clock", foregroundColor: .waitingList)
+        }
+
+        self.init(
+            id: dto.id,
+            className: dto.name,
+            instructorName: dto.instructorName,
+            location: dto.location,
+            time: dto.dateTime.formatted(date: .omitted, time: .shortened),
+            duration: dto.durationInMinutes.formatted() + " min",
+            bookingState: bookingState
+        )
+    }
+
     static func previewValue(
         id: GroupClassID = .previewValue(),
         className: String = "Love2Dance",

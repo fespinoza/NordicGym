@@ -7,35 +7,33 @@ enum BookModuleViewData: Equatable {
     case contentCard(ContentCardViewData)
     case challenges([JoinChallengeCardViewData])
 
-    static func buildModules(from bookModules: [BookModule]) -> [BookModuleViewData] {
-        bookModules.map { module in
-            switch module {
-            case let .recommendedClasses(dto):
-                let groupClasses = dto.map { GroupClassCardViewData(dto: $0) }
-                return .recommendedClasses(groupClasses)
+    init(dto: BookModule) {
+        switch dto {
+        case let .recommendedClasses(dto):
+            let groupClasses = dto.map { GroupClassCardViewData(dto: $0) }
+            self = .recommendedClasses(groupClasses)
 
-            case let .featuredContent(featuredContent):
-                return .contentCard(.init(dto: featuredContent))
+        case let .featuredContent(featuredContent):
+            self = .contentCard(.init(dto: featuredContent))
 
-            case .challenges(let array):
-                let challenges = array.map { JoinChallengeCardViewData(dto: $0) }
-                return .challenges(challenges)
-            }
+        case .challenges(let array):
+            let challenges = array.map { JoinChallengeCardViewData(dto: $0) }
+            self = .challenges(challenges)
         }
     }
 }
 
 struct BookScreen: View {
-    @State var viewData: BasicLoadingState<[BookModuleViewData]> = .idle
+    @State var content: BasicLoadingState<[BookModuleViewData]> = .idle
 
     @Environment(\.networkingClient.fetchBookContent) var fetchBookContent
 
     var body: some View {
-        BasicStateView(state: $viewData) { viewData in
+        BasicStateView(state: $content) { viewData in
             BookView(modules: viewData)
         } fetchData: {
             let content = try await fetchBookContent()
-            return BookModuleViewData.buildModules(from: content)
+            return content.map { .init(dto: $0) }
         }
     }
 }

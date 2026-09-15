@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct UpcomingClassesSectionViewData: Identifiable {
+struct UpcomingClassesSectionViewData: Identifiable, Equatable {
     let id: UUID = .init()
     let title: String
     let classes: [GroupClassRowViewData]

@@ -6,8 +6,9 @@
 //
 
 import SwiftUI
+import Tagged
 
-struct GroupClassCardViewData: Equatable {
+struct GroupClassCardViewData: Identifiable, Equatable {
     let id: GroupClassID
     let className: String
     let date: String

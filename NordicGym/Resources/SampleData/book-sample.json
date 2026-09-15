@@ -1,0 +1,88 @@
+{
+  "items": [
+    {
+      "type": "recommendedClasses",
+      "content": [
+        {
+          "id": "cycling-20260911-1630",
+          "name": "Cycling Interval",
+          "instructorName": "Alex",
+          "location": "Akersgata",
+          "dateTime": "2026-09-11T16:30:00+02:00",
+          "durationInMinutes": 45,
+          "bookingState": "notBooked",
+          "availableSpots": 6,
+          "imageURL": "https://images.pexels.com/photos/4162595/pexels-photo-4162595.jpeg?auto=compress&cs=tinysrgb&w=900"
+        },
+        {
+          "id": "yoga-morning-20260912-0900",
+          "name": "Morning Yoga",
+          "instructorName": "Ingrid",
+          "location": "Majorstuen",
+          "dateTime": "2026-09-12T09:00:00+02:00",
+          "durationInMinutes": 60,
+          "bookingState": "notBooked",
+          "availableSpots": 12,
+          "imageURL": "https://images.pexels.com/photos/4587342/pexels-photo-4587342.jpeg?auto=compress&cs=tinysrgb&w=900"
+        },
+        {
+          "id": "strength-express-20260912-1200",
+          "name": "Strength Express",
+          "instructorName": "Jonas",
+          "location": "Nydalen",
+          "dateTime": "2026-09-12T12:00:00+02:00",
+          "durationInMinutes": 30,
+          "bookingState": "notBooked",
+          "availableSpots": 1,
+          "imageURL": "https://images.pexels.com/photos/3757943/pexels-photo-3757943.jpeg?auto=compress&cs=tinysrgb&w=900"
+        },
+        {
+          "id": "dance-energy-20260913-1600",
+          "name": "Dance Energy",
+          "instructorName": "Eva",
+          "location": "Ringnes Park",
+          "dateTime": "2026-09-13T16:00:00+02:00",
+          "durationInMinutes": 50,
+          "bookingState": "notBookedOnWaitingList",
+          "availableSpots": 0,
+          "imageURL": "https://images.pexels.com/photos/5936039/pexels-photo-5936039.jpeg?auto=compress&cs=tinysrgb&w=900"
+        }
+      ]
+    },
+    {
+      "type": "featuredContent",
+      "content": {
+        "id": "7F4D35CB-1E2C-48CA-B93D-028356FFB206",
+        "title": "Find your next favorite class",
+        "message": "Try something new this week. From cycling and strength to yoga and dance, discover a class that fits your goals and book your next workout.",
+        "imageURL": "https://images.pexels.com/photos/4587371/pexels-photo-4587371.jpeg?auto=compress&cs=tinysrgb&w=900"
+      }
+    },
+    {
+      "type": "challenges",
+      "content": [
+        {
+          "id": "choose-to-move-202609",
+          "title": "Choose to move",
+          "text": "Train 8 times at our clubs",
+          "lastStartTime": "2026-10-23T23:59:00+02:00",
+          "badgeColor": "#E85D75"
+        },
+        {
+          "id": "find-your-balance-202609",
+          "title": "Find your balance",
+          "text": "Complete 6 yoga or Pilates classes",
+          "lastStartTime": "2026-10-15T23:59:00+02:00",
+          "badgeColor": "#6B8E7B"
+        },
+        {
+          "id": "stronger-together-202609",
+          "title": "Stronger together",
+          "text": "Join 10 group classes with your friends",
+          "lastStartTime": "2026-10-31T23:59:00+01:00",
+          "badgeColor": "#7161A8"
+        }
+      ]
+    }
+  ]
+}

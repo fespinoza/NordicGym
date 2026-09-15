@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SocialActivityRowViewData: Identifiable {
+struct SocialActivityRowViewData: Identifiable, Equatable {
     let id: UUID = .init()
     let profilePicture: Image?
     let message: LocalizedStringKey
@@ -16,6 +16,15 @@ struct SocialActivityRowViewData: Identifiable {
 }
 
 extension SocialActivityRowViewData {
+    init(dto: SocialActivity) {
+        self.init(
+            profilePicture: nil,
+            message: LocalizedStringKey(dto.message),
+            time: dto.date.formatted(.relative(presentation: .named, unitsStyle: .wide)),
+            isLiked: dto.isLiked
+        )
+    }
+
     static func previewValue(
         profilePicture: Image? = nil,
         message: LocalizedStringKey = "**Erling Haaland** did **Rowing**",
