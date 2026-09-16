@@ -47,7 +47,7 @@ struct NetworkingClient {
     }
 }
 
-enum NetworkingError: Error {
+enum NetworkingError: Error, LocalizedError {
     case notImplemented
     case fixtureFileNotFound(String)
 }

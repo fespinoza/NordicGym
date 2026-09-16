@@ -1,6 +1,7 @@
 import SwiftUI
+import Tagged
 
-struct GroupClassViewData {
+struct GroupClassViewData: Equatable {
     let id: GroupClassID
     let className: String
     let backgroundImage: Image
@@ -20,69 +21,90 @@ struct GroupClassViewData {
     let capacity: Int
     var availableSpots: Int { max(0, capacity - bookedSpots) }
 
-    let attendingFriends: [String]
+    let attendingFriends: [AttendingFriend]
 
-    let similarClasses: [SimilarClassViewData]
+    let similarClasses: [GroupClassRowViewData]
+
+    struct AttendingFriend: Identifiable, Equatable {
+        let id: MemberID
+        let profilePicture: Image?
+        let fullName: String
+        let bookingState: BookingState
+    }
+
+    var bookedCapacityLabel: String {
+        "\(bookedSpots)/\(capacity)"
+    }
 }
 
-struct GroupClassDetailViewData {
-    let groupClass: GroupClassCardViewData
-    let instructorName: String
-    let room: String
-    let bookedSpots: Int
-    let capacity: Int
-    let attendingFriends: [String]
-    let description: String
-    let intensity: ClassIntensity
-    let categoryName: String
-    let categoryImage: Image
-    let similarClasses: [SimilarClassViewData]
-
-    var availableSpots: Int { max(0, capacity - bookedSpots) }
-
+extension GroupClassViewData.AttendingFriend {
     static func previewValue(
-        groupClass: GroupClassCardViewData = .previewValue(
-            className: "Performance HYROX",
-            date: "14 Sep 2026, 14:45",
-            location: "Adamstuen",
-            backgroundImage: Image(.crossfit)
-        ),
-        room: String = "Performance Zone"
+        id: MemberID = .previewValue(),
+        profilePicture: Image? = nil,
+        fullName: String = "Tony Stark",
+        bookingState: BookingState = .booked
     ) -> Self {
-        let isCycling = groupClass.className.localizedCaseInsensitiveContains("cycling")
-        return .init(
-            groupClass: groupClass,
-            instructorName: "Mai Emilie Thi Nguyen",
-            room: room,
-            bookedSpots: 23,
-            capacity: 24,
-            attendingFriends: ["Alex Morgan"],
-            description: isCycling
-                ? "Challenge your endurance in an energising indoor cycling session. Alternate focused intervals with recovery periods, guided by your instructor and motivating music. Adjust the resistance to suit your experience and enjoy training together."
-                : "Performance HYROX combines running with eight workout disciplines inspired by a HYROX race. Expect a challenging mix of endurance and strength, including rowing, SkiErg and burpees. This class is suited to people with some training experience and is available at selected clubs.",
-            intensity: .intense,
-            categoryName: isCycling ? "Cycling" : "Performance",
-            categoryImage: isCycling ? Image(.cycling) : Image(.crossfit),
-            similarClasses: [
-                .init(id: "similar-1", day: "Tomorrow", time: "19:00", duration: "45 min",
-                      title: isCycling ? "Cycling Interval" : "Performance HIIT – I Go, You Go",
-                      instructor: "Stig Unhammer", location: groupClass.location, availableSpots: 1),
-                .init(id: "similar-2", day: "Saturday, 19 September", time: "12:15", duration: "45 min",
-                      title: isCycling ? "Cycling Endurance" : "Performance HIIT – I Go, You Go",
-                      instructor: "Cathrine Liu", location: groupClass.location, availableSpots: 21)
-            ]
+        .init(
+            id: id,
+            profilePicture: profilePicture,
+            fullName: fullName,
+            bookingState: bookingState
         )
     }
 }
 
-struct GroupClassDetailScreen: View {
-    let viewData: GroupClassDetailViewData
-    var onBook: (() -> Void)? = nil
-    var onBookSimilarClass: ((SimilarClassViewData) -> Void)? = nil
-    var onViewSchedule: (() -> Void)? = nil
+extension GroupClassViewData {
+    static func previewValue(
+        id: GroupClassID = .previewValue(),
+        className: String = "Performance Strength",
+        backgroundImage: Image = .init(.crossfit),
+        description: String = """
+            Challenge your endurance in an energizing indoor cycling session. Alternate focused intervals with recovery periods, guided by your instructor and motivating music. Adjust the resistance to suit your experience and enjoy training together.
+        """,
+        intensity: ClassIntensity = .moderate,
+        categoryName: String = "Strength",
+        categoryImage: Image = .init(.lift),
+        date: String = "Sept 14, 14:15",
+        duration: String = "45 min",
+        location: String = "Oslo",
+        room: String = "Room 2",
+        instructorName: String = "Thea Kristoffersen",
+        bookingState: BookingState = .notBooked,
+        bookedSpots: Int = 22,
+        capacity: Int = 30,
+        attendingFriends: [AttendingFriend] = [
+            .previewValue(fullName: "Mark"),
+            .previewValue(fullName: "Robert"),
+        ],
+        similarClasses: [GroupClassRowViewData] = [
+            .previewValue()
+        ]
+    ) -> Self {
+        .init(
+            id: id,
+            className: className,
+            backgroundImage: backgroundImage,
+            description: description,
+            intensity: intensity,
+            categoryName: categoryName,
+            categoryImage: categoryImage,
+            date: date,
+            duration: duration,
+            location: location,
+            room: room,
+            instructorName: instructorName,
+            bookingState: bookingState,
+            bookedSpots: bookedSpots,
+            capacity: capacity,
+            attendingFriends: attendingFriends,
+            similarClasses: similarClasses
+        )
+    }
+}
 
-    @State private var showsBookingNotice = false
-    @State private var showsScheduleNotice = false
+struct GroupClassView: View {
+    let viewData: GroupClassViewData
+
     @State private var showsBookingBar = false
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
@@ -108,25 +130,38 @@ struct GroupClassDetailScreen: View {
                 friends
                     .padding(.top, .spacingXS)
 
-                GroupClassAdditionalInformation(
-                    viewData: viewData,
-                    onBook: { groupClass in
-                        if let onBookSimilarClass {
-                            onBookSimilarClass(groupClass)
-                        } else {
-                            showsBookingNotice = true
-                        }
-                    },
-                    onViewSchedule: {
-                        if let onViewSchedule {
-                            onViewSchedule()
-                        } else {
-                            showsScheduleNotice = true
-                        }
+                section("What is it?") {
+                    Text(viewData.description)
+                        .font(.body)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+
+                section("Intensity") {
+                    ViewThatFits(in: .horizontal) {
+                        HStack(spacing: .spacingS) { intensityLabels }
+                        VStack(alignment: .leading, spacing: .spacingXS) { intensityLabels }
                     }
-                )
-                .padding(.spacingM)
-                .padding(.top, .spacingL)
+                    .accessibilityElement(children: .ignore)
+                    .accessibilityLabel("Intensity: \(viewData.intensity.rawValue)")
+                }
+
+                section("Categories") {
+                    categoryCard
+                }
+
+                if !viewData.similarClasses.isEmpty {
+                    section("Similar classes") {
+                        VStack(alignment: .leading, spacing: .spacingXL) {
+                            ForEach(viewData.similarClasses) { groupClass in
+                                GroupClassRow(viewData: groupClass)
+                            }
+                        }
+                        .padding(.spacingM)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(Color(red: 0.04, green: 0.12, blue: 0.18),
+                                    in: RoundedRectangle(cornerRadius: .cornerRadiusM))
+                    }
+                }
             }
             .padding(.bottom, .spacingL)
         }
@@ -145,20 +180,16 @@ struct GroupClassDetailScreen: View {
         .tint(highlight)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                ShareLink(item: "\(viewData.groupClass.className) — \(viewData.groupClass.date) at \(viewData.groupClass.location)") {
+                ShareLink(
+                    item: """
+                        \(viewData.className) — \
+                        \(viewData.date) at \
+                        \(viewData.location)"
+                    """
+                ) {
                     Label("Share class", systemImage: "square.and.arrow.up")
                 }
             }
-        }
-        .alert("Sample schedule", isPresented: $showsScheduleNotice) {
-            Button("OK", role: .cancel) {}
-        } message: {
-            Text("The full timetable is not connected yet. The classes shown here are sample sessions.")
-        }
-        .alert("Sample booking", isPresented: $showsBookingNotice) {
-            Button("OK", role: .cancel) {}
-        } message: {
-            Text("This is a preview class. No booking has been made.")
         }
     }
 
@@ -166,7 +197,7 @@ struct GroupClassDetailScreen: View {
         VStack(alignment: .leading, spacing: .spacingXXS) {
             Spacer(minLength: 260)
 
-            Text(viewData.groupClass.className.uppercased())
+            Text(viewData.className.uppercased())
                 .font(.system(.largeTitle, design: .default, weight: .heavy))
                 .italic()
                 .fixedSize(horizontal: false, vertical: true)
@@ -182,7 +213,7 @@ struct GroupClassDetailScreen: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .background {
             GeometryReader { geometry in
-                viewData.groupClass.backgroundImage
+                viewData.backgroundImage
                     .resizable()
                     .scaledToFill()
                     .frame(width: geometry.size.width, height: geometry.size.height)
@@ -210,16 +241,16 @@ struct GroupClassDetailScreen: View {
         )
 
         return LazyVGrid(columns: columns, alignment: .leading, spacing: .spacingL) {
-            informationRow(viewData.groupClass.date, icon: "calendar.badge.clock", color: highlight)
-            informationRow(viewData.groupClass.duration, icon: "clock")
-            informationRow(viewData.groupClass.location, icon: "mappin.and.ellipse", color: highlight)
+            informationRow(viewData.date, icon: "calendar.badge.clock", color: highlight)
+            informationRow(viewData.duration, icon: "clock")
+            informationRow(viewData.location, icon: "mappin.and.ellipse", color: highlight)
             informationRow(viewData.room, icon: "door.left.hand.open")
         }
     }
 
     private var booking: some View {
         VStack(alignment: .leading, spacing: .spacingM) {
-            Button(action: bookClass) {
+            Button(action: {}) {
                 Text(bookingTitle)
                     .font(.title3.bold())
                     .frame(maxWidth: .infinity)
@@ -230,8 +261,12 @@ struct GroupClassDetailScreen: View {
             .buttonStyle(.plain)
 
             VStack(alignment: .leading, spacing: .spacingXXS) {
-                (Text("\(viewData.bookedSpots)/\(viewData.capacity)").bold()
-                 + Text(" spots booked").foregroundColor(.gray))
+                Text(
+                    """
+                    \(Text(viewData.bookedCapacityLabel).bold()) \
+                    spots booked
+                    """
+                )
 
                 Text(viewData.availableSpots == 1 ? "1 spot available" : "\(viewData.availableSpots) spots available")
                     .foregroundStyle(Color(red: 0.36, green: 0.74, blue: 0.63))
@@ -241,7 +276,7 @@ struct GroupClassDetailScreen: View {
     }
 
     private var bookingTitle: String {
-        switch viewData.groupClass.bookingState {
+        switch viewData.bookingState {
         case .booked, .bookedOnWaitingList: "Cancel booking"
         case .notBookedOnWaitingList: "Join waiting list"
         case .notBooked: viewData.availableSpots == 0 ? "Join waiting list" : "Book"
@@ -258,13 +293,13 @@ struct GroupClassDetailScreen: View {
 
     private var friends: some View {
         VStack(alignment: .leading, spacing: .spacingL) {
-            ForEach(viewData.attendingFriends, id: \.self) { name in
+            ForEach(viewData.attendingFriends) { friend in
                 HStack(spacing: .spacingS) {
                     Image(systemName: "person.crop.circle.fill")
                         .font(.largeTitle)
                         .foregroundStyle(informationColor)
                         .accessibilityHidden(true)
-                    Text(name)
+                    Text(friend.fullName)
                     Spacer()
                     Text("Going!")
                         .foregroundStyle(.mint)
@@ -272,7 +307,7 @@ struct GroupClassDetailScreen: View {
                 .font(.subheadline)
             }
 
-            ShareLink(item: "Join me for \(viewData.groupClass.className) — \(viewData.groupClass.date) at \(viewData.groupClass.location).") {
+            Button(action: {}) {
                 Text("Invite friends")
                     .font(.subheadline.bold())
                     .padding(.spacingS)
@@ -283,14 +318,6 @@ struct GroupClassDetailScreen: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.spacingM)
         .background(Color(red: 0.04, green: 0.12, blue: 0.18))
-    }
-
-    private func bookClass() {
-        if let onBook {
-            onBook()
-        } else {
-            showsBookingNotice = true
-        }
     }
 
     private var persistentBookingBar: some View {
@@ -308,7 +335,7 @@ struct GroupClassDetailScreen: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
 
-            Button(action: bookClass) {
+            Button(action: {}) {
                 Text(bookingTitle)
                     .font(.headline)
                     .padding(.horizontal, .spacingM)
@@ -340,17 +367,66 @@ struct GroupClassDetailScreen: View {
         .foregroundStyle(color)
         .accessibilityElement(children: .combine)
     }
+
+    private var intensityLabels: some View {
+        ForEach(ClassIntensity.allCases, id: \.self) { intensity in
+            Text(intensity.rawValue)
+                .foregroundStyle(intensity == viewData.intensity ? .white : .gray)
+                .fontWeight(intensity == viewData.intensity ? .semibold : .regular)
+                .fixedSize()
+        }
+    }
+
+    private var categoryCard: some View {
+        Text(viewData.categoryName.uppercased())
+            .font(.title.bold().italic())
+            .padding(.spacingM)
+            .frame(maxWidth: .infinity, minHeight: 220, alignment: .bottomLeading)
+            .background {
+                GeometryReader { geometry in
+                    viewData.categoryImage
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: geometry.size.width, height: geometry.size.height)
+                        .clipped()
+                        .overlay {
+                            LinearGradient(colors: [.clear, .black], startPoint: .center, endPoint: .bottom)
+                        }
+                }
+            }
+            .clipShape(RoundedRectangle(cornerRadius: .cornerRadiusM))
+    }
+
+    private func section<Content: View>(_ title: String, @ViewBuilder content: () -> Content) -> some View {
+        VStack(alignment: .leading, spacing: .spacingM) {
+            Text(title)
+                .font(.headline)
+                .accessibilityAddTraits(.isHeader)
+            content()
+        }
+        .padding(.horizontal, .spacingM)
+        .padding(.top, .spacingL)
+    }
+}
+
+struct GroupClassScreen: View {
+    let id: GroupClassID
+
+    @State var content: BasicLoadingState<GroupClassViewData> = .idle
+    @Environment(\.networkingClient.fetchGroupClass) var fetchGroupClass
+
+    var body: some View {
+        BasicStateView(state: $content) { viewData in
+            GroupClassView(viewData: viewData)
+        } fetchData: {
+            let content = try await fetchGroupClass(id)
+            throw NetworkingError.notImplemented
+        }
+    }
 }
 
 #Preview {
     NavigationStack {
-        GroupClassDetailScreen(viewData: .previewValue())
-    }
-}
-
-#Preview("Accessibility") {
-    NavigationStack {
-        GroupClassDetailScreen(viewData: .previewValue())
-            .environment(\.dynamicTypeSize, .accessibility3)
+        GroupClassScreen(id: .previewValue())
     }
 }

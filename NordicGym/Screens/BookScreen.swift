@@ -96,14 +96,14 @@ struct BookView: View {
         .background(Color(uiColor: .secondarySystemBackground))
         .navigationTitle("Book")
         .toolbarTitleDisplayMode(.inlineLarge)
-        .navigationDestination(isPresented: $showsClassDetail) {
-            if let selectedClass {
-                GroupClassDetailScreen(viewData: .previewValue(
-                    groupClass: selectedClass,
-                    room: "Cycling Studio"
-                ))
-            }
-        }
+//        .navigationDestination(isPresented: $showsClassDetail) {
+//            if let selectedClass {
+//                GroupClassDetailScreen(viewData: .previewValue(
+//                    groupClass: selectedClass,
+//                    room: "Cycling Studio"
+//                ))
+//            }
+//        }
     }
 
     private func openDetail(_ groupClass: GroupClassCardViewData) {
