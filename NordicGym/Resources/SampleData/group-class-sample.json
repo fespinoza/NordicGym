@@ -1,0 +1,55 @@
+{
+  "id": "performance-strength-20260914-1415",
+  "gym": {
+    "id": "akersgata",
+    "name": "Akersgata"
+  },
+  "room": "Room 2",
+  "instructor": {
+    "id": "thea-kristoffersen",
+    "firstName": "Thea",
+    "lastName": "Kristoffersen"
+  },
+  "startTime": "2026-09-14T14:15:00+02:00",
+  "durationInMinutes": 45,
+  "bookingState": "notBooked",
+  "availableSpots": 8,
+  "capacity": 30,
+  "friendsAttending": [
+    {
+      "member": {
+        "id": "mark-jensen",
+        "firstName": "Mark",
+        "lastName": "Jensen",
+        "profilePicture": "https://randomuser.me/api/portraits/men/32.jpg"
+      },
+      "bookingState": "booked"
+    },
+    {
+      "member": {
+        "id": "robert-hansen",
+        "firstName": "Robert",
+        "lastName": "Hansen",
+        "profilePicture": null
+      },
+      "bookingState": "bookedOnWaitingList"
+    }
+  ],
+  "similarClasses": [
+    {
+      "id": "strength-express-20260915-1200",
+      "name": "Strength Express",
+      "instructorName": "Jonas",
+      "location": "Nydalen",
+      "dateTime": "2026-09-15T12:00:00+02:00",
+      "durationInMinutes": 30,
+      "bookingState": "notBooked",
+      "availableSpots": 1,
+      "imageURL": "https://images.pexels.com/photos/3757943/pexels-photo-3757943.jpeg?auto=compress&cs=tinysrgb&w=900"
+    }
+  ],
+  "name": "Performance Strength",
+  "description": "Build strength with a full-body workout combining controlled lifts and energizing intervals. Your instructor will guide you through each exercise and help you adjust the weights to your experience.",
+  "imageURL": "https://images.pexels.com/photos/3757943/pexels-photo-3757943.jpeg?auto=compress&cs=tinysrgb&w=900",
+  "intensity": "medium"
+}

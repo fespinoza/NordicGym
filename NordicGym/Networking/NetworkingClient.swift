@@ -22,7 +22,8 @@ struct NetworkingClient {
             let bookContent: BookContent = try fixtureFile(fileName: "book-sample")
             return bookContent.items
         } fetchGroupClass: { _ in
-            throw NetworkingError.notImplemented
+            try await Task.sleep(for: .seconds((1...3).randomElement() ?? 1))
+            return try fixtureFile(fileName: "group-class-sample")
         }
     }
 

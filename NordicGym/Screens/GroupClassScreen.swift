@@ -38,6 +38,15 @@ struct GroupClassViewData: Equatable {
 }
 
 extension GroupClassViewData.AttendingFriend {
+    init(dto: FriendAttending) {
+        self.init(
+            id: dto.member.id,
+            profilePicture: nil,
+            fullName: "\(dto.member.firstName) \(dto.member.lastName)",
+            bookingState: dto.bookingState
+        )
+    }
+
     static func previewValue(
         id: MemberID = .previewValue(),
         profilePicture: Image? = nil,
@@ -54,6 +63,38 @@ extension GroupClassViewData.AttendingFriend {
 }
 
 extension GroupClassViewData {
+    init(dto: GroupClass) {
+        let intensity: ClassIntensity
+        switch dto.intensity {
+        case .low:
+            intensity = .light
+        case .medium:
+            intensity = .moderate
+        case .high:
+            intensity = .intense
+        }
+
+        self.init(
+            id: dto.id,
+            className: dto.name,
+            backgroundImage: Image(.crossfit),
+            description: dto.description,
+            intensity: intensity,
+            categoryName: "Group Class",
+            categoryImage: Image(.lift),
+            date: dto.startTime.formatted(date: .abbreviated, time: .shortened),
+            duration: dto.durationInMinutes.formatted() + " min",
+            location: dto.gym.name,
+            room: dto.room ?? "",
+            instructorName: "\(dto.instructor.firstName) \(dto.instructor.lastName)",
+            bookingState: dto.bookingState,
+            bookedSpots: max(0, dto.capacity - dto.availableSpots),
+            capacity: dto.capacity,
+            attendingFriends: dto.friendsAttending.map { .init(dto: $0) },
+            similarClasses: dto.similarClasses.map { .init(dto: $0) }
+        )
+    }
+
     static func previewValue(
         id: GroupClassID = .previewValue(),
         className: String = "Performance Strength",
@@ -420,8 +461,10 @@ struct GroupClassScreen: View {
             GroupClassView(viewData: viewData)
         } fetchData: {
             let content = try await fetchGroupClass(id)
-            throw NetworkingError.notImplemented
+            return .init(dto: content)
         }
+        .background(.black)
+        .foregroundStyle(.white)
     }
 }
 
