@@ -1,0 +1,46 @@
+{
+  "id": "yoga-morning-20260912-0900",
+  "gym": {
+    "id": "majorstuen",
+    "name": "Majorstuen"
+  },
+  "room": "Mind and Body Studio",
+  "instructor": {
+    "id": "ingrid-solberg",
+    "firstName": "Ingrid",
+    "lastName": "Solberg"
+  },
+  "startTime": "2026-09-12T09:00:00+02:00",
+  "durationInMinutes": 60,
+  "bookingState": "notBooked",
+  "availableSpots": 12,
+  "capacity": 20,
+  "friendsAttending": [
+    {
+      "member": {
+        "id": "member-nora",
+        "firstName": "Nora",
+        "lastName": "Johansen",
+        "profilePicture": "https://randomuser.me/api/portraits/women/44.jpg"
+      },
+      "bookingState": "booked"
+    }
+  ],
+  "similarClasses": [
+    {
+      "id": "yoga-flow-20260913-1000",
+      "name": "Yoga Flow",
+      "instructorName": "Ingrid",
+      "location": "Majorstuen",
+      "dateTime": "2026-09-13T10:00:00+02:00",
+      "durationInMinutes": 60,
+      "bookingState": "bookedOnWaitingList",
+      "availableSpots": 0,
+      "imageURL": "https://images.pexels.com/photos/4587342/pexels-photo-4587342.jpeg?auto=compress&cs=tinysrgb&w=900"
+    }
+  ],
+  "name": "Morning Yoga",
+  "description": "Start your day with gentle movement, breathing, and stretching. Ingrid will guide you through a balanced practice with options for every experience level.",
+  "imageURL": "https://images.pexels.com/photos/4587342/pexels-photo-4587342.jpeg?auto=compress&cs=tinysrgb&w=900",
+  "intensity": "low"
+}

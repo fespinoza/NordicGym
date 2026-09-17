@@ -470,6 +470,6 @@ struct GroupClassScreen: View {
 
 #Preview {
     NavigationStack {
-        GroupClassScreen(id: .previewValue())
+        GroupClassScreen(id: "cycling-20260911-1630")
     }
 }

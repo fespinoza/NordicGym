@@ -1,0 +1,36 @@
+{
+  "id": "rowing-20260912-1830",
+  "gym": {
+    "id": "ringnes-park",
+    "name": "Ringnes Park"
+  },
+  "room": "Rowing Studio",
+  "instructor": {
+    "id": "erling-johansen",
+    "firstName": "Erling",
+    "lastName": "Johansen"
+  },
+  "startTime": "2026-09-12T18:30:00+02:00",
+  "durationInMinutes": 30,
+  "bookingState": "booked",
+  "availableSpots": 8,
+  "capacity": 16,
+  "friendsAttending": [],
+  "similarClasses": [
+    {
+      "id": "strength-express-20260912-1200",
+      "name": "Strength Express",
+      "instructorName": "Jonas",
+      "location": "Nydalen",
+      "dateTime": "2026-09-12T12:00:00+02:00",
+      "durationInMinutes": 30,
+      "bookingState": "notBooked",
+      "availableSpots": 1,
+      "imageURL": "https://images.pexels.com/photos/3757943/pexels-photo-3757943.jpeg?auto=compress&cs=tinysrgb&w=900"
+    }
+  ],
+  "name": "Rowing",
+  "description": "Improve your rowing technique and endurance with a mix of intervals and steady efforts. Erling will help you find a strong rhythm and adjust the workout to your level.",
+  "imageURL": "https://images.pexels.com/photos/4162486/pexels-photo-4162486.jpeg?auto=compress&cs=tinysrgb&w=900",
+  "intensity": "high"
+}

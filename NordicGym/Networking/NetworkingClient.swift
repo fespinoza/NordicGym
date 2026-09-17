@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Tagged
 
 struct NetworkingClient {
     let fetchHomeContent: () async throws -> [HomeModule]
@@ -21,9 +22,9 @@ struct NetworkingClient {
             try await Task.sleep(for: .seconds((1...3).randomElement() ?? 1))
             let bookContent: BookContent = try fixtureFile(fileName: "book-sample")
             return bookContent.items
-        } fetchGroupClass: { _ in
+        } fetchGroupClass: { id in
             try await Task.sleep(for: .seconds((1...3).randomElement() ?? 1))
-            return try fixtureFile(fileName: "group-class-sample")
+            return try fixtureFile(fileName: "group-class-\(id.rawValue)")
         }
     }
 
