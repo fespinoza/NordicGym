@@ -14,16 +14,29 @@ struct NetworkingClient {
     let fetchGroupClass: (GroupClassID) async throws -> GroupClass
 
     static func fauxLive() -> Self {
+        mockClient(sleeps: true)
+    }
+
+    static func forTest() -> Self {
+        mockClient(sleeps: false)
+    }
+
+    private static func randomlySleeps(isActive: Bool) async throws {
+        guard isActive else { return }
+        try await Task.sleep(for: .seconds((1...3).randomElement() ?? 1))
+    }
+
+    private static func mockClient(sleeps: Bool) -> Self {
         .init {
-            try await Task.sleep(for: .seconds((1...3).randomElement() ?? 1))
+            try await randomlySleeps(isActive: sleeps)
             let homeContent: HomeContent = try fixtureFile(fileName: "home-sample")
             return homeContent.items
         } fetchBookContent: {
-            try await Task.sleep(for: .seconds((1...3).randomElement() ?? 1))
+            try await randomlySleeps(isActive: sleeps)
             let bookContent: BookContent = try fixtureFile(fileName: "book-sample")
             return bookContent.items
         } fetchGroupClass: { id in
-            try await Task.sleep(for: .seconds((1...3).randomElement() ?? 1))
+            try await randomlySleeps(isActive: sleeps)
             return try fixtureFile(fileName: "group-class-\(id.rawValue)")
         }
     }
