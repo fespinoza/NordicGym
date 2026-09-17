@@ -97,44 +97,48 @@ struct GroupClassRow: View {
     let viewData: GroupClassRowViewData
 
     var body: some View {
-        HStack(spacing: .spacingM) {
-            Spacer(minLength: 4)
+        NavigationLink(destination: { GroupClassScreen(id: viewData.id) }) {
+            HStack(spacing: .spacingM) {
+                Spacer(minLength: 4)
 
-            HStack(alignment: .top, spacing: .spacingM) {
-                VStack(alignment: .leading) {
-                    Text(viewData.time)
-                    Text(viewData.duration)
-                        .foregroundStyle(.secondary)
+                HStack(alignment: .top, spacing: .spacingM) {
+                    VStack(alignment: .leading) {
+                        Text(viewData.time)
+                        Text(viewData.duration)
+                            .foregroundStyle(.secondary)
+                    }
+
+                    VStack(alignment: .leading) {
+                        Text(viewData.className)
+                        Text("w/ \(viewData.instructorName)")
+                            .foregroundStyle(.secondary)
+                        Text(viewData.location)
+                            .foregroundStyle(.secondary)
+                        Text(viewData.bookingState.message)
+                            .foregroundStyle(viewData.bookingState.foregroundColor)
+                    }
+                    .font(.callout)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
 
-                VStack(alignment: .leading) {
-                    Text(viewData.className)
-                    Text("w/ \(viewData.instructorName)")
-                        .foregroundStyle(.secondary)
-                    Text(viewData.location)
-                        .foregroundStyle(.secondary)
-                    Text(viewData.bookingState.message)
-                        .foregroundStyle(viewData.bookingState.foregroundColor)
-                }
-                .font(.callout)
-                .frame(maxWidth: .infinity, alignment: .leading)
+                Image(systemName: viewData.bookingState.imageName)
+                    .bold()
+                    .padding(.spacingXS)
+                    .foregroundStyle(.onAccent)
+                    .background {
+                        Circle()
+                            .foregroundStyle(viewData.bookingState.foregroundColor)
+                    }
             }
-
-            Image(systemName: viewData.bookingState.imageName)
-                .bold()
-                .padding(.spacingXS)
-                .foregroundStyle(.onAccent)
-                .background {
-                    Circle()
-                        .foregroundStyle(viewData.bookingState.foregroundColor)
-                }
+            .padding(.vertical, .spacingXS)
+            .background(alignment: .leading) {
+                RoundedRectangle(cornerRadius: .cornerRadiusS)
+                    .frame(width: 4)
+                    .foregroundStyle(.accent)
+            }
+            .contentShape(Rectangle())
         }
-        .padding(.vertical, .spacingXS)
-        .background(alignment: .leading) {
-            RoundedRectangle(cornerRadius: .cornerRadiusS)
-                .frame(width: 4)
-                .foregroundStyle(.accent)
-        }
+        .buttonStyle(.plain)
     }
 }
 
