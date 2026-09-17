@@ -17,7 +17,7 @@ struct NetworkingClient {
         mockClient(sleeps: true)
     }
 
-    static func forTest() -> Self {
+    static func test() -> Self {
         mockClient(sleeps: false)
     }
 
