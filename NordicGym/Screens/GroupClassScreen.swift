@@ -77,11 +77,11 @@ extension GroupClassViewData {
         self.init(
             id: dto.id,
             className: dto.name,
-            backgroundImageURL: nil,
+            backgroundImageURL: dto.imageURL,
             description: dto.description,
             intensity: intensity,
             categoryName: "Group Class",
-            categoryImageURL: nil,
+            categoryImageURL: dto.imageURL,
             date: dto.startTime.formatted(date: .abbreviated, time: .shortened),
             duration: dto.durationInMinutes.formatted() + " min",
             location: dto.gym.name,
@@ -380,15 +380,7 @@ struct GroupClassView: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
 
-            Button(action: {}) {
-                Text(bookingTitle)
-                    .font(.headline)
-                    .padding(.horizontal, .spacingM)
-                    .padding(.vertical, .spacingS)
-                    .foregroundStyle(.black)
-                    .background(.white, in: RoundedRectangle(cornerRadius: .cornerRadiusS))
-            }
-            .buttonStyle(.plain)
+            BookButton(bookingState: viewData.bookingState, size: .small)
         }
         .padding(.spacingM)
         .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: .cornerRadiusL))

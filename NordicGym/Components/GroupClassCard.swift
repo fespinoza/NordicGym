@@ -57,58 +57,60 @@ struct GroupClassCard: View {
     var onBook: () -> Void = {}
 
     var body: some View {
-        VStack(alignment: .leading) {
+        NavigationLink(destination: { GroupClassScreen(id: viewData.id) }) {
             VStack(alignment: .leading) {
-                Text(viewData.className)
-                    .bold()
-                    .font(.callout)
-                Text(viewData.date)
-                    .foregroundStyle(Color.accent)
-                Text("\(viewData.location) - \(viewData.duration)")
-            }
-            .font(.callout)
-            .foregroundStyle(.onAccent)
+                VStack(alignment: .leading) {
+                    Text(viewData.className)
+                        .bold()
+                        .font(.callout)
+                    Text(viewData.date)
+                        .foregroundStyle(Color.accent)
+                    Text("\(viewData.location) - \(viewData.duration)")
+                }
+                .font(.callout)
+                .foregroundStyle(.onAccent)
 
-            Spacer()
+                Spacer()
 
-            BookButton(bookingState: viewData.bookingState, size: .small, action: onBook)
-                .frame(maxWidth: .infinity, alignment: .trailing)
-        }
-        .padding(.spacingS)
-        .frame(width: 200, height: 250)
-        .background(alignment: .top) {
-            LinearGradient(
-                stops: [
-                    Gradient.Stop(color: .black.opacity(0), location: 0.00),
-                    Gradient.Stop(color: .black, location: 1.00),
-                ],
-                startPoint: UnitPoint(x: 0.5, y: 1),
-                endPoint: UnitPoint(x: 0.5, y: 0)
-            )
-            .frame(height: 90)
-        }
-        .background(alignment: .bottom) {
-            LinearGradient(
-                stops: [
-                    Gradient.Stop(color: .black.opacity(0), location: 0.00),
-                    Gradient.Stop(color: .black.opacity(0.6), location: 1.00),
-                ],
-                startPoint: UnitPoint(x: 0.5, y: 0),
-                endPoint: UnitPoint(x: 0.5, y: 1)
-            )
-            .frame(height: 48)
-        }
-        .background {
-            AsyncImage(url: viewData.backgroundImageURL) { image in
-                image
-                    .resizable()
-                    .scaledToFill()
-            } placeholder: {
-                Color.gray
+                BookButton(bookingState: viewData.bookingState, size: .small, action: onBook)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
             }
+            .padding(.spacingS)
+            .frame(width: 200, height: 250)
+            .background(alignment: .top) {
+                LinearGradient(
+                    stops: [
+                        Gradient.Stop(color: .black.opacity(0), location: 0.00),
+                        Gradient.Stop(color: .black, location: 1.00),
+                    ],
+                    startPoint: UnitPoint(x: 0.5, y: 1),
+                    endPoint: UnitPoint(x: 0.5, y: 0)
+                )
+                .frame(height: 90)
+            }
+            .background(alignment: .bottom) {
+                LinearGradient(
+                    stops: [
+                        Gradient.Stop(color: .black.opacity(0), location: 0.00),
+                        Gradient.Stop(color: .black.opacity(0.6), location: 1.00),
+                    ],
+                    startPoint: UnitPoint(x: 0.5, y: 0),
+                    endPoint: UnitPoint(x: 0.5, y: 1)
+                )
+                .frame(height: 48)
+            }
+            .background {
+                AsyncImage(url: viewData.backgroundImageURL) { image in
+                    image
+                        .resizable()
+                        .scaledToFill()
+                } placeholder: {
+                    Color.gray
+                }
+            }
+            .background(Color.cardBackground)
+            .clipShape(RoundedRectangle(cornerRadius: .cornerRadiusM))
         }
-        .background(Color.cardBackground)
-        .clipShape(RoundedRectangle(cornerRadius: .cornerRadiusM))
     }
 }
 
