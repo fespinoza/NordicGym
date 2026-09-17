@@ -62,12 +62,11 @@ struct GroupClassCard: View {
                 VStack(alignment: .leading) {
                     Text(viewData.className)
                         .bold()
-                        .font(.callout)
                     Text(viewData.date)
                         .foregroundStyle(Color.accent)
                     Text("\(viewData.location) - \(viewData.duration)")
                 }
-                .font(.callout)
+                .font(.subheadline)
                 .foregroundStyle(.onAccent)
 
                 Spacer()

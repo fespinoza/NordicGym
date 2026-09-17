@@ -50,7 +50,7 @@ struct ContentCard: View {
                     .bold()
                 Text(viewData.text)
             }
-            .font(.callout)
+            .font(.subheadline)
             .padding(.vertical, .spacingS)
             .padding(.leading, .spacingS)
             .padding(.trailing, viewData.imageURL == nil ? .spacingS : 0)

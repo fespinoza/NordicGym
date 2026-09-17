@@ -66,6 +66,7 @@ struct SocialActivityRow: View {
 
             Image(systemName: "hand.thumbsup")
                 .bold()
+                .font(.title2)
                 .foregroundStyle(.accent)
                 .padding(.spacingM)
                 .symbolVariant(viewData.isLiked ? .fill : .none)

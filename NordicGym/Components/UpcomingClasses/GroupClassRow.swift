@@ -106,6 +106,7 @@ struct GroupClassRow: View {
                         Text(viewData.time)
                         Text(viewData.duration)
                             .foregroundStyle(.secondary)
+                            .font(.footnote)
                     }
 
                     VStack(alignment: .leading) {
@@ -117,19 +118,20 @@ struct GroupClassRow: View {
                         Text(viewData.bookingState.message)
                             .foregroundStyle(viewData.bookingState.foregroundColor)
                     }
-                    .font(.callout)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
 
                 Image(systemName: viewData.bookingState.imageName)
                     .bold()
                     .padding(.spacingXS)
+                    .font(.body)
                     .foregroundStyle(.onAccent)
                     .background {
                         Circle()
                             .foregroundStyle(viewData.bookingState.foregroundColor)
                     }
             }
+            .font(.footnote)
             .padding(.vertical, .spacingXS)
             .background(alignment: .leading) {
                 RoundedRectangle(cornerRadius: .cornerRadiusS)
@@ -139,24 +141,27 @@ struct GroupClassRow: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+        .font(.subheadline)
     }
 }
 
 #Preview(traits: .sizeThatFitsLayout) {
-    VStack {
-        GroupClassRow(viewData: .previewValue())
-//            .frame(maxHeight: 120)
+    NavigationStack {
+        VStack {
+            GroupClassRow(viewData: .previewValue())
+            //            .frame(maxHeight: 120)
 
-        GroupClassRow(
-            viewData: .previewValue(
-                bookingState: .previewValue(
-                    message: "Number 7 people on the waiting list",
-                    imageName: "clock",
-                    foregroundColor: .waitingList
+            GroupClassRow(
+                viewData: .previewValue(
+                    bookingState: .previewValue(
+                        message: "Number 7 people on the waiting list",
+                        imageName: "clock",
+                        foregroundColor: .waitingList
+                    )
                 )
             )
-        )
-//            .frame(maxHeight: 120)
+            //            .frame(maxHeight: 120)
+        }
+        .padding()
     }
-    .padding()
 }
