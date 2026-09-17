@@ -4,11 +4,11 @@ import Tagged
 struct GroupClassViewData: Equatable {
     let id: GroupClassID
     let className: String
-    let backgroundImage: Image
+    let backgroundImageURL: URL?
     let description: String
     let intensity: ClassIntensity
     let categoryName: String
-    let categoryImage: Image
+    let categoryImageURL: URL?
 
     let date: String
     let duration: String
@@ -27,7 +27,7 @@ struct GroupClassViewData: Equatable {
 
     struct AttendingFriend: Identifiable, Equatable {
         let id: MemberID
-        let profilePicture: Image?
+        let profilePicture: URL?
         let fullName: String
         let bookingState: BookingState
     }
@@ -41,7 +41,7 @@ extension GroupClassViewData.AttendingFriend {
     init(dto: FriendAttending) {
         self.init(
             id: dto.member.id,
-            profilePicture: nil,
+            profilePicture: dto.member.profilePicture,
             fullName: "\(dto.member.firstName) \(dto.member.lastName)",
             bookingState: dto.bookingState
         )
@@ -49,7 +49,7 @@ extension GroupClassViewData.AttendingFriend {
 
     static func previewValue(
         id: MemberID = .previewValue(),
-        profilePicture: Image? = nil,
+        profilePicture: URL? = nil,
         fullName: String = "Tony Stark",
         bookingState: BookingState = .booked
     ) -> Self {
@@ -77,11 +77,11 @@ extension GroupClassViewData {
         self.init(
             id: dto.id,
             className: dto.name,
-            backgroundImage: Image(.crossfit),
+            backgroundImageURL: nil,
             description: dto.description,
             intensity: intensity,
             categoryName: "Group Class",
-            categoryImage: Image(.lift),
+            categoryImageURL: nil,
             date: dto.startTime.formatted(date: .abbreviated, time: .shortened),
             duration: dto.durationInMinutes.formatted() + " min",
             location: dto.gym.name,
@@ -98,13 +98,13 @@ extension GroupClassViewData {
     static func previewValue(
         id: GroupClassID = .previewValue(),
         className: String = "Performance Strength",
-        backgroundImage: Image = .init(.crossfit),
+        backgroundImageURL: URL? = nil,
         description: String = """
             Challenge your endurance in an energizing indoor cycling session. Alternate focused intervals with recovery periods, guided by your instructor and motivating music. Adjust the resistance to suit your experience and enjoy training together.
         """,
         intensity: ClassIntensity = .moderate,
         categoryName: String = "Strength",
-        categoryImage: Image = .init(.lift),
+        categoryImageURL: URL? = nil,
         date: String = "Sept 14, 14:15",
         duration: String = "45 min",
         location: String = "Oslo",
@@ -124,11 +124,11 @@ extension GroupClassViewData {
         .init(
             id: id,
             className: className,
-            backgroundImage: backgroundImage,
+            backgroundImageURL: backgroundImageURL,
             description: description,
             intensity: intensity,
             categoryName: categoryName,
-            categoryImage: categoryImage,
+            categoryImageURL: categoryImageURL,
             date: date,
             duration: duration,
             location: location,
@@ -254,22 +254,26 @@ struct GroupClassView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .background {
             GeometryReader { geometry in
-                viewData.backgroundImage
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: geometry.size.width, height: geometry.size.height)
-                    .clipped()
-                    .overlay {
-                        LinearGradient(
-                            stops: [
-                                .init(color: .black.opacity(0.3), location: 0),
-                                .init(color: .clear, location: 0.4),
-                                .init(color: .black, location: 1)
-                            ],
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    }
+                AsyncImage(url: viewData.backgroundImageURL) { image in
+                    image
+                        .resizable()
+                        .scaledToFill()
+                } placeholder: {
+                    Color.gray
+                }
+                .frame(width: geometry.size.width, height: geometry.size.height)
+                .clipped()
+                .overlay {
+                    LinearGradient(
+                        stops: [
+                            .init(color: .black.opacity(0.3), location: 0),
+                            .init(color: .clear, location: 0.4),
+                            .init(color: .black, location: 1)
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                }
             }
             .accessibilityHidden(true)
         }
@@ -425,14 +429,18 @@ struct GroupClassView: View {
             .frame(maxWidth: .infinity, minHeight: 220, alignment: .bottomLeading)
             .background {
                 GeometryReader { geometry in
-                    viewData.categoryImage
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: geometry.size.width, height: geometry.size.height)
-                        .clipped()
-                        .overlay {
-                            LinearGradient(colors: [.clear, .black], startPoint: .center, endPoint: .bottom)
-                        }
+                    AsyncImage(url: viewData.categoryImageURL) { image in
+                        image
+                            .resizable()
+                            .scaledToFill()
+                    } placeholder: {
+                        Color.gray
+                    }
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                    .clipped()
+                    .overlay {
+                        LinearGradient(colors: [.clear, .black], startPoint: .center, endPoint: .bottom)
+                    }
                 }
             }
             .clipShape(RoundedRectangle(cornerRadius: .cornerRadiusM))

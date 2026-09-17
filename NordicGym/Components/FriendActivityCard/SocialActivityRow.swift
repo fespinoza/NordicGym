@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SocialActivityRowViewData: Identifiable, Equatable {
     let id: UUID = .init()
-    let profilePicture: Image?
+    let profilePictureURL: URL?
     let message: LocalizedStringKey
     let time: String
     let isLiked: Bool
@@ -18,7 +18,7 @@ struct SocialActivityRowViewData: Identifiable, Equatable {
 extension SocialActivityRowViewData {
     init(dto: SocialActivity) {
         self.init(
-            profilePicture: nil,
+            profilePictureURL: dto.member.profilePicture,
             message: LocalizedStringKey(dto.message),
             time: dto.date.formatted(.relative(presentation: .named, unitsStyle: .wide)),
             isLiked: dto.isLiked
@@ -26,13 +26,13 @@ extension SocialActivityRowViewData {
     }
 
     static func previewValue(
-        profilePicture: Image? = nil,
+        profilePicture: URL? = nil,
         message: LocalizedStringKey = "**Erling Haaland** did **Rowing**",
         time: String = "3 hours ago",
         isLiked: Bool = false
     ) -> Self {
         .init(
-            profilePicture: profilePicture,
+            profilePictureURL: profilePicture,
             message: message,
             time: time,
             isLiked: isLiked
@@ -47,10 +47,12 @@ struct SocialActivityRow: View {
         HStack(spacing: .spacingS) {
             Color.secondary
                 .overlay {
-                    if let profilePicture = viewData.profilePicture {
-                        profilePicture
+                    AsyncImage(url: viewData.profilePictureURL) { image in
+                        image
                             .resizable()
                             .scaledToFill()
+                    } placeholder: {
+                        Color.gray
                     }
                 }
                 .frame(width: 48, height: 48)
@@ -73,7 +75,7 @@ struct SocialActivityRow: View {
 
 #Preview(traits: .sizeThatFitsLayout) {
     VStack {
-        SocialActivityRow(viewData: .previewValue(profilePicture: Image(.lift)))
+        SocialActivityRow(viewData: .previewValue())
         SocialActivityRow(viewData: .previewValue(isLiked: true))
     }
     .padding()

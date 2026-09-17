@@ -15,7 +15,7 @@ struct GroupClassCardViewData: Identifiable, Equatable {
     let location: String
     let duration: String
     let bookingState: BookingState
-    let backgroundImage: Image
+    let backgroundImageURL: URL?
 
     static func previewValue(
         id: GroupClassID = .previewValue(),
@@ -24,7 +24,7 @@ struct GroupClassCardViewData: Identifiable, Equatable {
         location: String = "Akersgata",
         duration: String = "45 min",
         bookingState: BookingState = .notBooked,
-        backgroundImage: Image = Image(.cycling)
+        backgroundImageURL: URL? = nil
     ) -> Self {
         .init(
             id: id,
@@ -33,7 +33,7 @@ struct GroupClassCardViewData: Identifiable, Equatable {
             location: location,
             duration: duration,
             bookingState: bookingState,
-            backgroundImage: backgroundImage
+            backgroundImageURL: backgroundImageURL
         )
     }
 }
@@ -47,7 +47,7 @@ extension GroupClassCardViewData {
             location: dto.location,
             duration: dto.durationInMinutes.formatted() + " min",
             bookingState: dto.bookingState,
-            backgroundImage: Image(.cycling)
+            backgroundImageURL: dto.imageURL
         )
     }
 }
@@ -99,10 +99,13 @@ struct GroupClassCard: View {
             .frame(height: 48)
         }
         .background {
-            viewData
-                .backgroundImage
-                .resizable()
-                .scaledToFill()
+            AsyncImage(url: viewData.backgroundImageURL) { image in
+                image
+                    .resizable()
+                    .scaledToFill()
+            } placeholder: {
+                Color.gray
+            }
         }
         .background(Color.cardBackground)
         .clipShape(RoundedRectangle(cornerRadius: .cornerRadiusM))
@@ -120,7 +123,7 @@ struct GroupClassCard: View {
                 location: "Fjord",
                 duration: "60 min",
                 bookingState: .bookedOnWaitingList,
-                backgroundImage: Image(.rowing)
+                backgroundImageURL: nil
             )
         )
 

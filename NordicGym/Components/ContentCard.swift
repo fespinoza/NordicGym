@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentCardViewData: Equatable {
     let title: String
     let text: String
-    let image: Image?
+    let imageURL: URL?
 }
 
 extension ContentCardViewData {
@@ -18,7 +18,7 @@ extension ContentCardViewData {
         self.init(
             title: dto.title,
             text: dto.title,
-            image: nil
+            imageURL: dto.imageURL
         )
     }
 
@@ -28,12 +28,12 @@ extension ContentCardViewData {
         It is a long established fact that a reader will be distracted by the readable content of a page when \
         looking at its layout.
         """,
-        image: Image? = Image(.groupClass)
+        imageURL: URL? = nil
     ) -> Self {
         .init(
             title: title,
             text: text,
-            image: image
+            imageURL: imageURL
         )
     }
 }
@@ -53,21 +53,23 @@ struct ContentCard: View {
             .font(.callout)
             .padding(.vertical, .spacingS)
             .padding(.leading, .spacingS)
-            .padding(.trailing, viewData.image == nil ? .spacingS : 0)
+            .padding(.trailing, viewData.imageURL == nil ? .spacingS : 0)
 
-            if viewData.image != nil {
+            if viewData.imageURL != nil {
                 Color.clear
                     .frame(width: imageSize, height: 50)
             }
         }
         .background(alignment: .trailing) {
-            if let image = viewData.image {
+            AsyncImage(url: viewData.imageURL) { image in
                 image
                     .resizable()
                     .scaledToFill()
-                    .frame(width: imageSize)
-                .clipped()
+            } placeholder: {
+                EmptyView()
             }
+            .frame(width: imageSize)
+            .clipped()
         }
         .background { Color.cardBackground }
         .clipShape(RoundedRectangle(cornerRadius: .cornerRadiusM))
@@ -77,7 +79,7 @@ struct ContentCard: View {
 #Preview(traits: .sizeThatFitsLayout) {
     VStack {
         ContentCard(viewData: .previewValue())
-        ContentCard(viewData: .previewValue(image: nil))
+        ContentCard(viewData: .previewValue(imageURL: nil))
     }
     .padding()
 }

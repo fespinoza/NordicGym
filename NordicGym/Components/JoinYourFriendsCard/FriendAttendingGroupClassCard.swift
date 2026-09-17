@@ -13,7 +13,7 @@ struct FriendAttendingViewData: Identifiable, Equatable {
     let groupClass: GroupClassCardViewData
 
     struct FriendInfo: Equatable {
-        let profileImage: Image
+        let profileImageURL: URL?
         let message: String
     }
 }
@@ -24,11 +24,15 @@ struct FriendAttendingGroupClassCard: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack(spacing: .spacingXS) {
-                viewData.friendInfo.profileImage
-                    .resizable()
-                    .scaledToFill()
-                    .clipShape(Circle())
-                    .frame(width: 30, height: 30)
+                AsyncImage(url: viewData.friendInfo.profileImageURL) { image in
+                    image
+                        .resizable()
+                        .scaledToFill()
+                } placeholder: {
+                    Color.gray
+                }
+                .clipShape(Circle())
+                .frame(width: 30, height: 30)
 
                 Text(viewData.friendInfo.message)
             }
@@ -51,7 +55,7 @@ extension FriendAttendingViewData {
     init(dto: FriendAttendingGroupClass) {
         self.init(
             friendInfo: .init(
-                profileImage: Image(systemName: "person.crop.circle.fill"),
+                profileImageURL: dto.friend.profilePicture,
                 message: "\(dto.friend.firstName) is going"
             ),
             groupClass: .init(dto: dto.groupClass)
@@ -71,11 +75,11 @@ extension FriendAttendingViewData {
 
 extension FriendAttendingViewData.FriendInfo {
     static func previewValue(
-        profileImage: Image = Image(.lift),
+        profileImageURL: URL? = nil,
         message: String = "Snadre is going"
     ) -> Self {
         .init(
-            profileImage: profileImage,
+            profileImageURL: profileImageURL,
             message: message
         )
     }
