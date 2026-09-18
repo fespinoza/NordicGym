@@ -5,6 +5,7 @@ public func expectSnapshot(
     of view: some View,
     on variant: SnapshotVariant,
     record: SnapshotTestingConfiguration.Record = .missing,
+    appendName: String = "",
     fileID: StaticString = #fileID,
     file filePath: StaticString = #filePath,
     testName: String = #function,
@@ -20,7 +21,7 @@ public func expectSnapshot(
             layout: variant.layout,
             traits: variant.device.deviceTraits
         ),
-        named: variant.fileName,
+        named: "\(variant.fileName)-\(appendName)",
         fileID: fileID,
         file: filePath,
         testName: testName,

@@ -33,7 +33,18 @@ struct BookScreen: View {
             BookView(modules: viewData)
         } fetchData: {
             let content = try await fetchBookContent()
-            return content.map { .init(dto: $0) }
+
+            var viewData: [BookModuleViewData] = [
+                .services([
+                    .init(iconName: "person.3.fill", title: "Group Class"),
+                    .init(iconName: "figure.strengthtraining.traditional", title: "Personal Trainer"),
+                    .init(iconName: "figure.flexibility", title: "Physiotherapy")
+                ])
+            ]
+            content.forEach { dtoModule in
+                viewData.append(.init(dto: dtoModule))
+            }
+            return viewData
         }
     }
 }
@@ -96,14 +107,6 @@ struct BookView: View {
         .background(Color(uiColor: .secondarySystemBackground))
         .navigationTitle("Book")
         .toolbarTitleDisplayMode(.inlineLarge)
-//        .navigationDestination(isPresented: $showsClassDetail) {
-//            if let selectedClass {
-//                GroupClassDetailScreen(viewData: .previewValue(
-//                    groupClass: selectedClass,
-//                    room: "Cycling Studio"
-//                ))
-//            }
-//        }
     }
 
     private func openDetail(_ groupClass: GroupClassCardViewData) {
