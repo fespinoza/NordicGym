@@ -75,7 +75,7 @@ public struct CustomAsyncImage<Output: View, Placeholder: View>: View {
         .task { await loadImageIfNeeded() }
     }
 
-    private var resolvedState: ImageViewData {
+    private var resolvedState: ImageViewData? {
         if case let .remote(url) = state, let image = imageClient.cachedImage(for: url) {
             return .image(image)
         }

@@ -20,7 +20,7 @@ import SnapshotTesting
         let view = NavigationStack {
             GroupClassScreen(id: Self.sampleClassIDs[0])
         }
-        .environment(\.dataClient, .init(fetchGroupClass: { id in .previewValue() }))
+        .environment(\.dataClient, .test())
 
         expectSnapshot(of: view, on: variant)
     }
