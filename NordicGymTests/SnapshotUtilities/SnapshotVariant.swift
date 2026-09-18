@@ -141,7 +141,7 @@ public extension SnapshotVariant {
     }
 
     static func iPad(_ colorScheme: ColorScheme = .light) -> SnapshotVariant {
-        .init(device: .iPad(.landscape), colorScheme: colorScheme)
+        .init(device: .iPad(.portrait), colorScheme: colorScheme)
     }
 
     /// Basic snapshot variants to test a screen on.
@@ -175,6 +175,15 @@ public extension SnapshotVariant {
                 .init(
                     device: .iPhone,
                     colorScheme: .light,
+                    navigationBar: navigationBar,
+                    dynamicTypeSize: .accessibility3
+                )
+            )
+
+            variants.append(
+                .init(
+                    device: .iPad(.portrait),
+                    colorScheme: .dark,
                     navigationBar: navigationBar,
                     dynamicTypeSize: .accessibility3
                 )
