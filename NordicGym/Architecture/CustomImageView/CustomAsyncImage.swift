@@ -37,7 +37,7 @@ public struct CustomAsyncImage<Output: View>: View {
 
     public var body: some View {
         Group {
-            switch state {
+            switch resolvedState {
             case .empty,
                  .remote:
                 placeholder
@@ -71,8 +71,16 @@ public struct CustomAsyncImage<Output: View>: View {
             .foregroundStyle(placeholderColor)
     }
 
+    private var resolvedState: ImageViewData {
+        if case let .remote(url) = state, let image = imageClient.cachedImage(for: url) {
+            return .image(image)
+        }
+        return state
+    }
+
     func loadImageIfNeeded() async {
         guard case let .remote(imageURL) = state else { return }
+        guard imageClient.cachedImage(for: imageURL) == nil else { return }
 
         withAnimation { state = .loading }
 

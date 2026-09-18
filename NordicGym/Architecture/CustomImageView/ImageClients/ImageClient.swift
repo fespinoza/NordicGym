@@ -10,8 +10,15 @@ public extension EnvironmentValues {
 /// logic of fetching images, which can include caching and more advanced
 /// mechanisms is out of the scope of this library.
 public protocol ImageClient {
+    /// Returns an image synchronously when it is already available locally.
+    func cachedImage(for url: URL) -> Image?
+
     /// Performs a network request to load the image given the URL
     /// - Parameter url: the URL of the image to load
     /// - Returns: the SwiftUI Image for the given URL
     func loadImage(with url: URL) async throws -> Image
+}
+
+public extension ImageClient {
+    func cachedImage(for url: URL) -> Image? { nil }
 }

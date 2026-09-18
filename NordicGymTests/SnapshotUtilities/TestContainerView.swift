@@ -1,4 +1,5 @@
 import SwiftUI
+@testable import NordicGym
 
 struct TestContainerView<Content: View>: View {
     let variant: SnapshotVariant
@@ -19,5 +20,6 @@ struct TestContainerView<Content: View>: View {
         .environment(\.dynamicTypeSize, variant.dynamicTypeSize)
         .environment(\.colorScheme, variant.colorScheme)
         .environment(\.locale, variant.locale)
+        .environment(\.imageClient, SnapshotImageClient())
     }
 }
