@@ -20,7 +20,7 @@ import SnapshotTesting
         let view = NavigationStack {
             GroupClassScreen(id: Self.sampleClassIDs[0])
         }
-        .environment(\.networkingClient, .test())
+        .environment(\.dataClient, .test())
 
         expectSnapshot(of: view, on: variant)
     }
@@ -30,7 +30,7 @@ import SnapshotTesting
         let view = NavigationStack {
             GroupClassScreen(id: classId)
         }
-        .environment(\.networkingClient, .test())
+        .environment(\.dataClient, .test())
 
         expectSnapshot(of: view, on: variant, appendName: classId.rawValue)
     }

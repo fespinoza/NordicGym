@@ -27,14 +27,14 @@ import SnapshotTesting
         let view = NavigationStack {
             HomeScreen()
         }
-        .environment(\.networkingClient, .test())
+        .environment(\.dataClient, .test())
 
         expectSnapshot(of: view, on: variant)
     }
 
     @Test(arguments: SnapshotVariant.defaultVariants(checkAccessibility: true))
     func `home content`(variant: SnapshotVariant) async throws {
-        let view = NavigationStack { HomeScreen() }.environment(\.networkingClient, .test())
+        let view = NavigationStack { HomeScreen() }.environment(\.dataClient, .test())
         expectSnapshot(of: view, on: variant)
     }
 
@@ -43,11 +43,13 @@ import SnapshotTesting
         let view = NavigationStack {
             HomeScreen()
         }.environment(
-            \.networkingClient,
+            \.dataClient,
              .init(
                 fetchHomeContent: {
-                    let content: HomeContent = try NetworkingClient.fixtureFile(fileName: "home-sample-no-social")
-                    return content.items
+                    [
+                        .upcomingWorkouts([]),
+                        .contentCard(.previewValue())
+                    ]
                 }
              )
         )

@@ -8,6 +8,55 @@
 import Foundation
 import Tagged
 
+struct DataClient {
+    let fetchHomeContent: () async throws -> [HomeModuleViewData]
+    let fetchBookContent: () async throws -> [BookModuleViewData]
+    let fetchGroupClass: (GroupClassID) async throws -> GroupClassViewData
+
+    static func fauxLive() -> Self {
+        bridgeClient(networkingClient: .fauxLive())
+    }
+
+    static func test() -> Self {
+        bridgeClient(networkingClient: .test())
+    }
+
+    init(
+        fetchHomeContent: @escaping () async throws -> [HomeModuleViewData] = { throw NetworkingError.notImplemented },
+        fetchBookContent: @escaping () async throws -> [BookModuleViewData] = { throw NetworkingError.notImplemented },
+        fetchGroupClass: @escaping (GroupClassID) async throws -> GroupClassViewData = {
+            _ in throw NetworkingError.notImplemented
+        }
+    ) {
+        self.fetchHomeContent = fetchHomeContent
+        self.fetchBookContent = fetchBookContent
+        self.fetchGroupClass = fetchGroupClass
+    }
+
+    private static func bridgeClient(networkingClient: NetworkingClient) -> Self {
+        return .init {
+            let content: [HomeModule] = try await networkingClient.fetchHomeContent()
+            return content.map { .init(dto: $0) }
+        } fetchBookContent: {
+            let content: [BookModule] = try await networkingClient.fetchBookContent()
+            var viewData: [BookModuleViewData] = [
+                .services([
+                    .init(iconName: "person.3.fill", title: "Group Class"),
+                    .init(iconName: "figure.strengthtraining.traditional", title: "Personal Trainer"),
+                    .init(iconName: "figure.flexibility", title: "Physiotherapy")
+                ])
+            ]
+            content.forEach { dtoModule in
+                viewData.append(.init(dto: dtoModule))
+            }
+            return viewData
+        } fetchGroupClass: { id in
+            let content: GroupClass = try await networkingClient.fetchGroupClass(id)
+            return .init(dto: content)
+        }
+    }
+}
+
 struct NetworkingClient {
     let fetchHomeContent: () async throws -> [HomeModule]
     let fetchBookContent: () async throws -> [BookModule]
@@ -80,4 +129,9 @@ import SwiftUI
 
 extension EnvironmentValues {
     @Entry var networkingClient: NetworkingClient = .fauxLive()
+}
+
+
+extension EnvironmentValues {
+    @Entry var dataClient: DataClient = .fauxLive()
 }
