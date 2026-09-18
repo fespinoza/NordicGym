@@ -27,33 +27,9 @@
 		9BEEE8B63050AC770066F5C6 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		9B2296A8305D38D1001E4D6A /* Exceptions for "NordicGym" folder in "NordicGym" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"Resources/SampleData/home-sample-no-social.json",
-			);
-			target = 000000000000000100000000 /* NordicGym */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		9B2296A9305D38D1001E4D6A /* Exceptions for "NordicGym" folder in "Compile Sources" phase from "NordicGym" target */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			buildPhase = 000000000000000120000000 /* Sources */;
-			membershipExceptions = (
-				"Resources/SampleData/home-sample-no-social.json",
-			);
-		};
-/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		000000000000000000000010 /* NordicGym */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				9B2296A8305D38D1001E4D6A /* Exceptions for "NordicGym" folder in "NordicGym" target */,
-				9B2296A9305D38D1001E4D6A /* Exceptions for "NordicGym" folder in "Compile Sources" phase from "NordicGym" target */,
-			);
 			path = NordicGym;
 			sourceTree = "<group>";
 		};

@@ -46,7 +46,8 @@ import SnapshotTesting
             \.networkingClient,
              .init(
                 fetchHomeContent: {
-                    try NetworkingClient.fixtureFile(fileName: "home-sample-no-social")
+                    let content: HomeContent = try NetworkingClient.fixtureFile(fileName: "home-sample-no-social")
+                    return content.items
                 }
              )
         )
