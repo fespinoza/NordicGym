@@ -15,9 +15,7 @@ import SnapshotTesting
         .init(rawValue: "yoga-morning-20260912-0900"),
     ]
 
-    @Test(
-        arguments: SnapshotVariant.defaultVariants(checkAccessibility: true)
-    )
+    @Test(arguments: SnapshotVariant.defaultVariants(checkAccessibility: true))
     func `sample class content`(variant: SnapshotVariant) async throws {
         let view = NavigationStack {
             GroupClassScreen(id: Self.sampleClassIDs[0])
