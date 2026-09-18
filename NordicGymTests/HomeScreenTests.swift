@@ -21,7 +21,7 @@ import SnapshotTesting
 
         assertSnapshot(
             of: view,
-            as: .image( 
+            as: .image(
                 traits: .init(preferredContentSizeCategory: .accessibilityExtraExtraLarge)
             )
         )
