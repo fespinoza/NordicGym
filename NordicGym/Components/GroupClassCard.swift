@@ -15,7 +15,7 @@ struct GroupClassCardViewData: Identifiable, Equatable {
     let location: String
     let duration: String
     let bookingState: BookingState
-    let backgroundImageURL: URL?
+    let backgroundImage: ImageViewData?
 
     static func previewValue(
         id: GroupClassID = .previewValue(),
@@ -24,7 +24,7 @@ struct GroupClassCardViewData: Identifiable, Equatable {
         location: String = "Akersgata",
         duration: String = "45 min",
         bookingState: BookingState = .notBooked,
-        backgroundImageURL: URL? = nil
+        backgroundImage: ImageViewData? = nil
     ) -> Self {
         .init(
             id: id,
@@ -33,7 +33,7 @@ struct GroupClassCardViewData: Identifiable, Equatable {
             location: location,
             duration: duration,
             bookingState: bookingState,
-            backgroundImageURL: backgroundImageURL
+            backgroundImage: backgroundImage
         )
     }
 }
@@ -47,7 +47,7 @@ extension GroupClassCardViewData {
             location: dto.location,
             duration: dto.durationInMinutes.formatted() + " min",
             bookingState: dto.bookingState,
-            backgroundImageURL: dto.imageURL
+            backgroundImage: .remote(from: dto.imageURL)
         )
     }
 }
@@ -99,12 +99,12 @@ struct GroupClassCard: View {
                 .frame(height: 48)
             }
             .background {
-                AsyncImage(url: viewData.backgroundImageURL) { image in
-                    image
-                        .resizable()
-                        .scaledToFill()
-                } placeholder: {
-                    Color.gray
+                if let backgroundImage = viewData.backgroundImage {
+                    CustomAsyncImage(state: backgroundImage) { image in
+                        image
+                            .resizable()
+                            .scaledToFill()
+                    }
                 }
             }
             .background(Color.cardBackground)
@@ -124,7 +124,7 @@ struct GroupClassCard: View {
                 location: "Fjord",
                 duration: "60 min",
                 bookingState: .bookedOnWaitingList,
-                backgroundImageURL: nil
+                backgroundImage: nil
             )
         )
 
