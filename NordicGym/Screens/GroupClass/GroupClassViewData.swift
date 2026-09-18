@@ -1,14 +1,14 @@
 import Tagged
-import Foundation
+import SwiftUI
 
 struct GroupClassViewData: Equatable {
     let id: GroupClassID
     let className: String
-    let backgroundImageURL: URL?
+    let backgroundImage: ImageViewData?
     let description: String
     let intensity: ClassIntensity
     let categoryName: String
-    let categoryImageURL: URL?
+    let categoryImage: ImageViewData?
 
     let date: String
     let duration: String
@@ -77,11 +77,11 @@ extension GroupClassViewData {
         self.init(
             id: dto.id,
             className: dto.name,
-            backgroundImageURL: dto.imageURL,
+            backgroundImage: .remote(from: dto.imageURL),
             description: dto.description,
             intensity: intensity,
             categoryName: "Group Class",
-            categoryImageURL: dto.imageURL,
+            categoryImage: .remote(from: dto.imageURL),
             date: dto.startTime.formatted(date: .abbreviated, time: .shortened),
             duration: dto.durationInMinutes.formatted() + " min",
             location: dto.gym.name,
@@ -98,13 +98,13 @@ extension GroupClassViewData {
     static func previewValue(
         id: GroupClassID = .previewValue(),
         className: String = "Performance Strength",
-        backgroundImageURL: URL? = nil,
+        backgroundImage: ImageViewData? = .image(Image(.crossfit)),
         description: String = """
             Challenge your endurance in an energizing indoor cycling session. Alternate focused intervals with recovery periods, guided by your instructor and motivating music. Adjust the resistance to suit your experience and enjoy training together.
         """,
         intensity: ClassIntensity = .moderate,
         categoryName: String = "Strength",
-        categoryImageURL: URL? = nil,
+        categoryImage: ImageViewData? = nil,
         date: String = "Sept 14, 14:15",
         duration: String = "45 min",
         location: String = "Oslo",
@@ -124,11 +124,11 @@ extension GroupClassViewData {
         .init(
             id: id,
             className: className,
-            backgroundImageURL: backgroundImageURL,
+            backgroundImage: backgroundImage,
             description: description,
             intensity: intensity,
             categoryName: categoryName,
-            categoryImageURL: categoryImageURL,
+            categoryImage: categoryImage,
             date: date,
             duration: duration,
             location: location,

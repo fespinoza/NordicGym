@@ -22,6 +22,7 @@ public func expectSnapshot(
             traits: variant.device.deviceTraits
         ),
         named: "\(variant.fileName)-\(appendName)",
+        record: record,
         fileID: fileID,
         file: filePath,
         testName: testName,

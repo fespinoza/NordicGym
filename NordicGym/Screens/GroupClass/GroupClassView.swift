@@ -111,25 +111,25 @@ struct GroupClassView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .background {
             GeometryReader { geometry in
-                AsyncImage(url: viewData.backgroundImageURL) { image in
-                    image
-                        .resizable()
-                        .scaledToFill()
-                } placeholder: {
-                    Color.gray
-                }
-                .frame(width: geometry.size.width, height: geometry.size.height)
-                .clipped()
-                .overlay {
-                    LinearGradient(
-                        stops: [
-                            .init(color: .black.opacity(0.3), location: 0),
-                            .init(color: .clear, location: 0.4),
-                            .init(color: .black, location: 1)
-                        ],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
+                if let backgroundImage = viewData.backgroundImage {
+                    CustomAsyncImage(state: backgroundImage) { image in
+                        image
+                            .resizable()
+                            .scaledToFill()
+                    }
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                    .clipped()
+                    .overlay {
+                        LinearGradient(
+                            stops: [
+                                .init(color: .black.opacity(0.3), location: 0),
+                                .init(color: .clear, location: 0.4),
+                                .init(color: .black, location: 1)
+                            ],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    }
                 }
             }
             .accessibilityHidden(true)
@@ -278,7 +278,7 @@ struct GroupClassView: View {
             .frame(maxWidth: .infinity, minHeight: 220, alignment: .bottomLeading)
             .background {
                 GeometryReader { geometry in
-                    AsyncImage(url: viewData.categoryImageURL) { image in
+                    CustomAsyncImage(state: viewData.categoryImage) { image in
                         image
                             .resizable()
                             .scaledToFill()

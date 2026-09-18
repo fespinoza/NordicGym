@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentCardViewData: Equatable {
     let title: String
     let text: String
-    let imageURL: URL?
+    let image: ImageViewData?
 }
 
 extension ContentCardViewData {
@@ -18,7 +18,7 @@ extension ContentCardViewData {
         self.init(
             title: dto.title,
             text: dto.title,
-            imageURL: dto.imageURL
+            image: .remote(from: dto.imageURL)
         )
     }
 
@@ -28,12 +28,12 @@ extension ContentCardViewData {
         It is a long established fact that a reader will be distracted by the readable content of a page when \
         looking at its layout.
         """,
-        imageURL: URL? = nil
+        image: ImageViewData? = .image(Image(.groupClass))
     ) -> Self {
         .init(
             title: title,
             text: text,
-            imageURL: imageURL
+            image: image
         )
     }
 }
@@ -53,15 +53,15 @@ struct ContentCard: View {
             .font(.subheadline)
             .padding(.vertical, .spacingS)
             .padding(.leading, .spacingS)
-            .padding(.trailing, viewData.imageURL == nil ? .spacingS : 0)
+            .padding(.trailing, viewData.image == nil ? .spacingS : 0)
 
-            if viewData.imageURL != nil {
+            if viewData.image != nil {
                 Color.clear
                     .frame(width: imageSize, height: 50)
             }
         }
         .background(alignment: .trailing) {
-            AsyncImage(url: viewData.imageURL) { image in
+            CustomAsyncImage(state: viewData.image) { image in
                 image
                     .resizable()
                     .scaledToFill()
@@ -79,7 +79,7 @@ struct ContentCard: View {
 #Preview(traits: .sizeThatFitsLayout) {
     VStack {
         ContentCard(viewData: .previewValue())
-        ContentCard(viewData: .previewValue(imageURL: nil))
+        ContentCard(viewData: .previewValue(image: nil))
     }
     .padding()
 }

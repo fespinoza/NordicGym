@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SocialActivityRowViewData: Identifiable, Equatable {
     let id: UUID = .init()
-    let profilePictureURL: URL?
+    let profilePicture: ImageViewData?
     let message: LocalizedStringKey
     let time: String
     let isLiked: Bool
@@ -18,7 +18,7 @@ struct SocialActivityRowViewData: Identifiable, Equatable {
 extension SocialActivityRowViewData {
     init(dto: SocialActivity) {
         self.init(
-            profilePictureURL: dto.member.profilePicture,
+            profilePicture: .remote(from: dto.member.profilePicture),
             message: LocalizedStringKey(dto.message),
             time: dto.date.formatted(.relative(presentation: .named, unitsStyle: .wide)),
             isLiked: dto.isLiked
@@ -26,13 +26,13 @@ extension SocialActivityRowViewData {
     }
 
     static func previewValue(
-        profilePicture: URL? = nil,
+        profilePicture: ImageViewData? = .image(Image(.lift)),
         message: LocalizedStringKey = "**Erling Haaland** did **Rowing**",
         time: String = "3 hours ago",
         isLiked: Bool = false
     ) -> Self {
         .init(
-            profilePictureURL: profilePicture,
+            profilePicture: profilePicture,
             message: message,
             time: time,
             isLiked: isLiked
@@ -47,7 +47,7 @@ struct SocialActivityRow: View {
         HStack(spacing: .spacingS) {
             Color.secondary
                 .overlay {
-                    AsyncImage(url: viewData.profilePictureURL) { image in
+                    CustomAsyncImage(state: viewData.profilePicture) { image in
                         image
                             .resizable()
                             .scaledToFill()

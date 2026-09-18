@@ -22,23 +22,32 @@ import SwiftUI
  }
  ```
  */
-public struct CustomAsyncImage<Output: View>: View {
-    @State var state: ImageViewData
+public struct CustomAsyncImage<Output: View, Placeholder: View>: View {
+    @State var state: ImageViewData?
     let transform: ((Image) -> Output)?
+    @ViewBuilder var placeholder: Placeholder
 
     @Environment(\.placeholderColor) private var placeholderColor
     @Environment(\.imageClient) private var imageClient
     private let logger = os.Logger.forCategory("CustomAsyncImage")
 
-    public init(state: ImageViewData, transform: ((Image) -> Output)?) {
+    public init(
+        state: ImageViewData?,
+        transform: ((Image) -> Output)?,
+        @ViewBuilder placeholder: () -> Placeholder = {
+            Rectangle().foregroundStyle(.gray)
+        }
+    ) {
         self.state = state
         self.transform = transform
+        self.placeholder = placeholder() // TODO: like this or?
     }
 
     public var body: some View {
         Group {
             switch state {
-            case .empty,
+            case .none,
+                .empty,
                  .remote:
                 placeholder
             case .loading:
@@ -64,11 +73,6 @@ public struct CustomAsyncImage<Output: View>: View {
         }
         .transition(.opacity)
         .task { await loadImageIfNeeded() }
-    }
-
-    var placeholder: some View {
-        Rectangle()
-            .foregroundStyle(placeholderColor)
     }
 
     func loadImageIfNeeded() async {
