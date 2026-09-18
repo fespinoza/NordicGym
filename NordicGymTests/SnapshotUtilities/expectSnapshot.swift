@@ -4,7 +4,7 @@ import SnapshotTesting
 public func expectSnapshot(
     of view: some View,
     on variant: SnapshotVariant,
-    record: SnapshotTestingConfiguration.Record = .missing,
+    record: SnapshotTestingConfiguration.Record = .failed,
     appendName: String = "",
     fileID: StaticString = #fileID,
     file filePath: StaticString = #filePath,
