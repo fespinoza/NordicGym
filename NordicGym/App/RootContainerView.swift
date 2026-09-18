@@ -27,13 +27,13 @@ struct RootContainerView: View {
             }
 
             Tab {
-                Text("Hello World")
+                Text("WIP")
             } label: {
                 Label("Check in", systemImage: "qrcode")
             }
 
             Tab {
-                Text("Hello World")
+                Text("WIP")
             } label: {
                 Label("Profile", systemImage: "person")
             }

@@ -42,16 +42,18 @@ struct NetworkingClient {
     }
 
     init(
-        fetchHomeContent: @escaping () async throws -> [HomeModule],
-        fetchBookContent: @escaping () async throws -> [BookModule],
-        fetchGroupClass: @escaping (GroupClassID) async throws -> GroupClass
+        fetchHomeContent: @escaping () async throws -> [HomeModule] = { throw NetworkingError.notImplemented },
+        fetchBookContent: @escaping () async throws -> [BookModule] = { throw NetworkingError.notImplemented },
+        fetchGroupClass: @escaping (GroupClassID) async throws -> GroupClass = {
+            _ in throw NetworkingError.notImplemented
+        }
     ) {
         self.fetchHomeContent = fetchHomeContent
         self.fetchBookContent = fetchBookContent
         self.fetchGroupClass = fetchGroupClass
     }
 
-    private static func fixtureFile<Model: Decodable>(fileName: String) throws -> Model {
+    static func fixtureFile<Model: Decodable>(fileName: String) throws -> Model {
         guard let url = Bundle.main.url(forResource: fileName, withExtension: "json") else {
             throw NetworkingError.fixtureFileNotFound("\(fileName).json")
         }
@@ -65,6 +67,13 @@ struct NetworkingClient {
 enum NetworkingError: Error, LocalizedError {
     case notImplemented
     case fixtureFileNotFound(String)
+
+    var errorDescription: String? {
+        switch self {
+        case .notImplemented: "Endpoint not implemented"
+        case let .fixtureFileNotFound(fileName): "Fixture file '\(fileName)' not found"
+        }
+    }
 }
 
 import SwiftUI

@@ -1,0 +1,17 @@
+{
+  "items": [
+    {
+      "type": "upcomingClasses",
+      "content": []
+    },
+    {
+      "type": "featuredContent",
+      "content": {
+        "id": "88B995ED-C598-4622-AD58-0BD07B508471",
+        "title": "What are your objectives?",
+        "message": "Build strength, find your rhythm, or make more time for yourself. Explore classes that fit your goals and plan your next workout with a friend.",
+        "imageURL": "https://images.pexels.com/photos/4587371/pexels-photo-4587371.jpeg?auto=compress&cs=tinysrgb&w=900"
+      }
+    }
+  ]
+}

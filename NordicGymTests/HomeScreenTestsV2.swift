@@ -37,4 +37,19 @@ import SnapshotTesting
         let view = NavigationStack { HomeScreen() }.environment(\.networkingClient, .test())
         expectSnapshot(of: view, on: variant)
     }
+
+    @Test(arguments: SnapshotVariant.defaultVariants(checkAccessibility: true))
+    func `home content with social features off and no upcoming classes`(variant: SnapshotVariant) async throws {
+        let view = NavigationStack {
+            HomeScreen()
+        }.environment(
+            \.networkingClient,
+             .init(
+                fetchHomeContent: {
+                    try NetworkingClient.fixtureFile(fileName: "home-sample-no-social")
+                }
+             )
+        )
+        expectSnapshot(of: view, on: variant)
+    }
 }
