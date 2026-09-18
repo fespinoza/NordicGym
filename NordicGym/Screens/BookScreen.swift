@@ -104,7 +104,6 @@ struct BookView: View {
             }
             .padding(.vertical, .spacingL)
         }
-        .background(Color(uiColor: .secondarySystemBackground))
         .navigationTitle("Book")
         .toolbarTitleDisplayMode(.inlineLarge)
     }

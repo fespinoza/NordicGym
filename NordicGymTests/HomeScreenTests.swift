@@ -3,116 +3,54 @@ import Testing
 import SwiftUI
 import SnapshotTesting
 
-@MainActor @Suite struct `Home Screen Snapshots` {
-    @Test func `sample content`() async throws {
+@MainActor @Suite struct `New Home Screen Snapshots` {
+    @Test(
+        arguments: [
+            .init(device: .iPhone, colorScheme: .light),
+            .init(device: .iPhone, colorScheme: .light, dynamicTypeSize: .accessibility4),
+            .init(device: .fixedSize(height: 1600), colorScheme: .light),
+            .init(
+                device: .fixedSize(height: 1600),
+                colorScheme: .light,
+                dynamicTypeSize: .accessibility4
+            ),
+            .init(device: .iPhone(.landscape), colorScheme: .dark),
+            .init(device: .iPad(.portrait), colorScheme: .dark),
+            .init(device: .iPad(.landscape), colorScheme: .light),
+            .init(device: .iPad(.portrait(splitView: .oneThird)), colorScheme: .light),
+            .init(device: .iPad(.portrait(splitView: .twoThirds)), colorScheme: .dark),
+            .init(device: .iPad(.landscape(splitView: .oneThird)), colorScheme: .dark),
+            .init(device: .iPad(.landscape(splitView: .twoThirds)), colorScheme: .dark),
+        ] as [SnapshotVariant]
+    )
+    func `sample content`(variant: SnapshotVariant) async throws {
         let view = NavigationStack {
             HomeScreen()
         }
         .environment(\.networkingClient, .test())
 
-        assertSnapshot(of: view, as: .image)
+        expectSnapshot(of: view, on: variant)
     }
 
-    @Test func `sample content - accessibility`() async throws {
+    @Test(arguments: SnapshotVariant.defaultVariants(checkAccessibility: true))
+    func `home content`(variant: SnapshotVariant) async throws {
+        let view = NavigationStack { HomeScreen() }.environment(\.networkingClient, .test())
+        expectSnapshot(of: view, on: variant)
+    }
+
+    @Test(arguments: SnapshotVariant.defaultVariants(checkAccessibility: true))
+    func `home content with social features off and no upcoming classes`(variant: SnapshotVariant) async throws {
         let view = NavigationStack {
             HomeScreen()
-        }
-        .environment(\.networkingClient, .test())
-
-        assertSnapshot(
-            of: view,
-            as: .image(
-                traits: .init(preferredContentSizeCategory: .accessibilityExtraExtraLarge)
-            )
+        }.environment(
+            \.networkingClient,
+             .init(
+                fetchHomeContent: {
+                    let content: HomeContent = try NetworkingClient.fixtureFile(fileName: "home-sample-no-social")
+                    return content.items
+                }
+             )
         )
-    }
-
-    @Test func `sample content - all scrollable size`() async throws {
-        let view = NavigationStack {
-            HomeScreen()
-        }
-        .environment(\.networkingClient, .test())
-
-        assertSnapshot(of: view, as: .image(layout: .fixed(width: 402, height: 1800)))
-    }
-
-    @Test func `sample content - all scrollable size - dynamic type`() async throws {
-        let view = NavigationStack {
-            HomeScreen()
-        }
-        .environment(\.networkingClient, .test())
-
-        assertSnapshot(
-            of: view,
-            as: .image(
-                layout: .fixed(width: 402, height: 1800),
-                traits: .init(preferredContentSizeCategory: .accessibilityExtraExtraLarge)
-            )
-        )
-    }
-
-    @Test func `sample content - dark mode`() async throws {
-        let view = NavigationStack {
-            HomeScreen()
-        }
-        .environment(\.networkingClient, .test())
-        .environment(\.colorScheme, .dark)
-
-        assertSnapshot(
-            of: view,
-            as: .image(layout: .device(config: .iPhone13Pro(.landscape)), traits: .iPhone13ProMax(.landscape))
-        )
-    }
-
-    @Test func `sample content - iPad Landscape`() async throws {
-        let view = NavigationStack {
-            HomeScreen()
-        }
-        .environment(\.networkingClient, .test())
-        .environment(\.colorScheme, .dark)
-
-        assertSnapshot(
-            of: view,
-            as: .image(layout: .device(config: .iPadPro11(.landscape)), traits: .iPadPro11)
-        )
-    }
-
-    @Test func `sample content - iPad Portrait`() async throws {
-        let view = NavigationStack {
-            HomeScreen()
-        }
-        .environment(\.networkingClient, .test())
-        .environment(\.colorScheme, .dark)
-
-        assertSnapshot(
-            of: view,
-            as: .image(layout: .device(config: .iPadPro11(.portrait)), traits: .iPadPro11)
-        )
-    }
-
-    @Test func `sample content - iPad Portrait - Split One Third`() async throws {
-        let view = NavigationStack {
-            HomeScreen()
-        }
-        .environment(\.networkingClient, .test())
-        .environment(\.colorScheme, .light)
-
-        assertSnapshot(
-            of: view,
-            as: .image(layout: .device(config: .iPadPro11(.portrait(splitView: .oneThird))), traits: .iPadPro11)
-        )
-    }
-
-    @Test func `sample content - iPad Portrait - Split Two Thirds`() async throws {
-        let view = NavigationStack {
-            HomeScreen()
-        }
-        .environment(\.networkingClient, .test())
-        .environment(\.colorScheme, .light)
-
-        assertSnapshot(
-            of: view,
-            as: .image(layout: .device(config: .iPadPro11(.portrait(splitView: .twoThirds))), traits: .iPadPro11)
-        )
+        expectSnapshot(of: view, on: variant)
     }
 }
