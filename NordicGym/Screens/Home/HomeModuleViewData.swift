@@ -1,11 +1,44 @@
 import SwiftUI
 import Tagged
 
-enum HomeModuleViewData: Equatable {
+enum HomeModuleViewData: Equatable, Identifiable {
     case upcomingWorkouts([UpcomingClassesSectionViewData])
     case joinYourFriends([FriendAttendingViewData])
     case friendActivity([SocialActivityRowViewData])
     case contentCard(ContentCardViewData)
+
+    enum ID: Hashable {
+        case upcomingWorkouts
+        case joinYourFriends
+        case friendActivity
+        case contentCard(String)
+    }
+
+    var id: ID {
+        switch self {
+        case .upcomingWorkouts:
+            .upcomingWorkouts
+        case .joinYourFriends:
+            .joinYourFriends
+        case .friendActivity:
+            .friendActivity
+        case let .contentCard(viewData):
+            .contentCard(viewData.id)
+        }
+    }
+
+    var hasContent: Bool {
+        switch self {
+        case let .upcomingWorkouts(sections):
+            sections.contains { !$0.classes.isEmpty }
+        case let .joinYourFriends(friendClasses):
+            !friendClasses.isEmpty
+        case let .friendActivity(activities):
+            !activities.isEmpty
+        case .contentCard:
+            true
+        }
+    }
 }
 
 extension HomeModuleViewData {
@@ -105,30 +138,35 @@ extension HomeModuleViewData {
             ]),
             .friendActivity([
                 .init(
+                    id: "home-erik-rowing",
                     profilePicture: .image(Image(.homeErikPortrait)),
                     message: "**Erik Hansen** did **Rowing**",
                     time: "10 September at 06:41",
                     isLiked: false
                 ),
                 .init(
+                    id: "home-nora-yoga",
                     profilePicture: .image(Image(.homeNoraPortrait)),
                     message: "**Nora Johansen** did **Yoga Flow**",
                     time: "9 September at 19:15",
                     isLiked: true
                 ),
                 .init(
+                    id: "home-sandre-cycling",
                     profilePicture: .image(Image(.homeSandrePortrait)),
                     message: "**Sandre Berg** did **Cycling Interval**",
                     time: "9 September at 17:30",
                     isLiked: false
                 ),
                 .init(
+                    id: "home-amina-strength",
                     profilePicture: .image(Image(.homeAminaPortrait)),
                     message: "**Amina Larsen** did **Full Body Strength**",
                     time: "9 September at 12:45",
                     isLiked: true
                 ),
                 .init(
+                    id: "home-mikkel-dance",
                     profilePicture: .image(Image(.homeMikkelPortrait)),
                     message: "**Mikkel Solberg** did **Love2Dance**",
                     time: "8 September at 18:30",
@@ -137,6 +175,7 @@ extension HomeModuleViewData {
             ]),
             .joinYourFriends([
                 .init(
+                    id: "home-sandre-cycling-class",
                     friendInfo: .init(
                         profileImage: .image(Image(.homeSandrePortrait)),
                         message: "Sandre is going"
@@ -152,6 +191,7 @@ extension HomeModuleViewData {
                     )
                 ),
                 .init(
+                    id: "home-nora-yoga-class",
                     friendInfo: .init(
                         profileImage: .image(Image(.homeNoraPortrait)),
                         message: "Nora is going"
@@ -167,6 +207,7 @@ extension HomeModuleViewData {
                     )
                 ),
                 .init(
+                    id: "home-amina-strength-class",
                     friendInfo: .init(
                         profileImage: .image(Image(.homeAminaPortrait)),
                         message: "Amina is going"
@@ -182,6 +223,7 @@ extension HomeModuleViewData {
                     )
                 ),
                 .init(
+                    id: "home-mikkel-dance-class",
                     friendInfo: .init(
                         profileImage: .image(Image(.homeMikkelPortrait)),
                         message: "Mikkel is going"
@@ -198,6 +240,7 @@ extension HomeModuleViewData {
                 )
             ]),
             .contentCard(.init(
+                id: "home-objectives",
                 title: "What are your objectives?",
                 text: """
                 Build strength, find your rhythm, or make more time for yourself. \

@@ -18,14 +18,15 @@ struct JoinYourFriendsCard: View {
                 }
             }
         }
+        .scrollIndicators(.hidden)
     }
 }
 
 #Preview {
     JoinYourFriendsCard(friendClasses: [
-        .previewValue(),
-        .previewValue(),
-        .previewValue(),
-        .previewValue(),
+        .previewValue(id: "preview-friend-1"),
+        .previewValue(id: "preview-friend-2"),
+        .previewValue(id: "preview-friend-3"),
+        .previewValue(id: "preview-friend-4"),
     ])
 }

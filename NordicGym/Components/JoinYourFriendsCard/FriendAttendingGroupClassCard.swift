@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import Tagged
 
 struct FriendAttendingViewData: Identifiable, Equatable {
-    let id: UUID = .init()
+    let id: String
     let friendInfo: FriendInfo
     let groupClass: GroupClassCardViewData
 
@@ -20,9 +21,10 @@ struct FriendAttendingViewData: Identifiable, Equatable {
 
 struct FriendAttendingGroupClassCard: View {
     let viewData: FriendAttendingViewData
+    @ScaledMetric(relativeTo: .body) private var avatarSize: CGFloat = 32
 
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: .spacingS) {
             HStack(spacing: .spacingXS) {
                 CustomAsyncImage(state: viewData.friendInfo.profileImage) { image in
                     image
@@ -32,18 +34,16 @@ struct FriendAttendingGroupClassCard: View {
                     Color.gray
                 }
                 .clipShape(Circle())
-                .frame(width: 30, height: 30)
+                .frame(width: avatarSize, height: avatarSize)
+                .accessibilityHidden(true)
 
                 Text(viewData.friendInfo.message)
+                    .font(.subheadline.weight(.semibold))
             }
 
             GroupClassCard(viewData: viewData.groupClass)
         }
-        .padding(.spacingXS)
-        .background {
-            RoundedRectangle(cornerRadius: .cornerRadiusM + .spacingXS)
-                .foregroundStyle(Color(uiColor: .secondarySystemBackground))
-        }
+        .homeCardStyle(contentPadding: .spacingXS)
     }
 }
 
@@ -54,6 +54,7 @@ struct FriendAttendingGroupClassCard: View {
 extension FriendAttendingViewData {
     init(dto: FriendAttendingGroupClass) {
         self.init(
+            id: "\(dto.friend.id.rawValue)-\(dto.groupClass.id.rawValue)",
             friendInfo: .init(
                 profileImage: .remote(from: dto.friend.profilePicture),
                 message: "\(dto.friend.firstName) is going"
@@ -63,10 +64,12 @@ extension FriendAttendingViewData {
     }
 
     static func previewValue(
+        id: String = "preview-friend-attending",
         friendInfo: FriendInfo = .previewValue(),
         groupClass: GroupClassCardViewData = .previewValue()
     ) -> Self {
         .init(
+            id: id,
             friendInfo: friendInfo,
             groupClass: groupClass
         )

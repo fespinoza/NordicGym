@@ -1,14 +1,14 @@
 import SwiftUI
 
 struct HomeScreen: View {
-    @State var content: BasicLoadingState<[HomeModuleViewData]> = .idle
-    @Environment(\.dataClient.fetchHomeContent) var fetchHomeContent
+    @State private var content: BasicLoadingState<[HomeModuleViewData]> = .idle
+    @Environment(\.dataClient.fetchHomeContent) private var fetchHomeContent
 
     var body: some View {
         BasicStateView(state: $content) { viewData in
             HomeView(modules: viewData)
         } fetchData: {
-            try await fetchHomeContent()
+            try await fetchHomeContent().filter(\.hasContent)
         }
     }
 }

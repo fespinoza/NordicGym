@@ -11,4 +11,17 @@ extension View {
 
             }
     }
+
+    func homeCardStyle(contentPadding: CGFloat = .spacingM) -> some View {
+        self
+            .padding(contentPadding)
+            .background {
+                RoundedRectangle(cornerRadius: .cornerRadiusL)
+                    .fill(Color(uiColor: .secondarySystemGroupedBackground))
+            }
+            .overlay {
+                RoundedRectangle(cornerRadius: .cornerRadiusL)
+                    .stroke(Color.primary.opacity(0.08))
+            }
+    }
 }

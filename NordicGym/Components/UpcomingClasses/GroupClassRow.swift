@@ -98,50 +98,90 @@ struct GroupClassRow: View {
 
     var body: some View {
         NavigationLink(destination: { GroupClassScreen(id: viewData.id) }) {
-            HStack(spacing: .spacingM) {
-                Spacer(minLength: 4)
-
-                HStack(alignment: .top, spacing: .spacingM) {
-                    VStack(alignment: .leading) {
-                        Text(viewData.time)
-                        Text(viewData.duration)
-                            .foregroundStyle(.secondary)
-                            .font(.footnote)
-                    }
-
-                    VStack(alignment: .leading) {
-                        Text(viewData.className)
-                        Text("w/ \(viewData.instructorName)")
-                            .foregroundStyle(.secondary)
-                        Text(viewData.location)
-                            .foregroundStyle(.secondary)
-                        Text(viewData.bookingState.message)
-                            .foregroundStyle(viewData.bookingState.foregroundColor)
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                }
-
-                Image(systemName: viewData.bookingState.imageName)
-                    .bold()
-                    .padding(.spacingXS)
-                    .font(.body)
-                    .foregroundStyle(.onAccent)
-                    .background {
-                        Circle()
-                            .foregroundStyle(viewData.bookingState.foregroundColor)
-                    }
-            }
-            .font(.footnote)
-            .padding(.vertical, .spacingXS)
-            .background(alignment: .leading) {
-                RoundedRectangle(cornerRadius: .cornerRadiusS)
-                    .frame(width: 4)
-                    .foregroundStyle(.accent)
-            }
+            GroupClassRowContent(viewData: viewData)
+                .padding(.vertical, .spacingS)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+        .accessibilityElement(children: .combine)
+    }
+}
+
+private struct GroupClassRowContent: View {
+    let viewData: GroupClassRowViewData
+
+    var body: some View {
+        ViewThatFits(in: .horizontal) {
+            HStack(alignment: .top, spacing: .spacingM) {
+                GroupClassTime(time: viewData.time, duration: viewData.duration)
+                GroupClassSummary(
+                    className: viewData.className,
+                    instructorName: viewData.instructorName,
+                    location: viewData.location
+                )
+                Spacer(minLength: .spacingXS)
+                BookingStatusBadge(viewData: viewData.bookingState)
+            }
+
+            VStack(alignment: .leading, spacing: .spacingS) {
+                HStack(alignment: .top, spacing: .spacingM) {
+                    GroupClassTime(time: viewData.time, duration: viewData.duration)
+                    GroupClassSummary(
+                        className: viewData.className,
+                        instructorName: viewData.instructorName,
+                        location: viewData.location
+                    )
+                }
+
+                BookingStatusBadge(viewData: viewData.bookingState)
+            }
+        }
+    }
+}
+
+private struct GroupClassTime: View {
+    let time: String
+    let duration: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: .spacingXXS) {
+            Text(time)
+                .font(.headline)
+            Text(duration)
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+        }
+    }
+}
+
+private struct GroupClassSummary: View {
+    let className: String
+    let instructorName: String
+    let location: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: .spacingXXS) {
+            Text(className)
+                .font(.headline)
+            Text("With \(instructorName)")
+            Text(location)
+        }
         .font(.subheadline)
+        .foregroundStyle(.secondary)
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+private struct BookingStatusBadge: View {
+    let viewData: GroupClassRowViewData.BookingStateViewData
+
+    var body: some View {
+        Label(viewData.message, systemImage: viewData.imageName)
+            .font(.caption.weight(.semibold))
+            .foregroundStyle(viewData.foregroundColor)
+            .padding(.horizontal, .spacingS)
+            .padding(.vertical, .spacingXS)
+            .background(viewData.foregroundColor.opacity(0.12), in: Capsule())
     }
 }
 

@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct UpcomingClassesSectionViewData: Identifiable, Equatable {
-    let id: UUID = .init()
     let title: String
     let classes: [GroupClassRowViewData]
+
+    var id: String { title }
 }
 
 struct UpcomingClassesCard: View {
@@ -19,19 +20,33 @@ struct UpcomingClassesCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: .spacingL) {
             ForEach(sections) { section in
-                VStack(alignment: .leading) {
-                    Text(section.title)
-                        .font(.caption.bold())
+                UpcomingClassesSection(viewData: section)
+            }
+        }
+        .homeCardStyle()
+    }
+}
 
-                    VStack(alignment: .leading, spacing: .spacingM) {
-                        ForEach(section.classes) { row in
-                            GroupClassRow(viewData: row)
-                        }
+private struct UpcomingClassesSection: View {
+    let viewData: UpcomingClassesSectionViewData
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: .spacingS) {
+            Text(viewData.title)
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(.secondary)
+                .accessibilityAddTraits(.isHeader)
+
+            VStack(alignment: .leading, spacing: 0) {
+                ForEach(viewData.classes) { row in
+                    GroupClassRow(viewData: row)
+
+                    if row.id != viewData.classes.last?.id {
+                        Divider()
                     }
                 }
             }
         }
-        .cardStyle()
     }
 }
 

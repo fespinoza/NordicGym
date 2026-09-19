@@ -1,14 +1,15 @@
 import SwiftUI
 
 struct TitledSection<Content: View>: View {
-    let title: String
+    let title: LocalizedStringResource
     @ViewBuilder let content: Content
 
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: .spacingM) {
             Text(title)
-                .font(.headline)
+                .font(.title2.bold())
                 .padding(.horizontal, .spacingM)
+                .accessibilityAddTraits(.isHeader)
 
             content
         }

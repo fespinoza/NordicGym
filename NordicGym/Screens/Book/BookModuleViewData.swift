@@ -14,7 +14,12 @@ enum BookModuleViewData: Equatable {
             self = .recommendedClasses(groupClasses)
 
         case let .featuredContent(featuredContent):
-            self = .contentCard(.init(dto: featuredContent))
+            self = .contentCard(.init(
+                id: featuredContent.id.uuidString,
+                title: featuredContent.title,
+                text: featuredContent.title,
+                image: .remote(from: featuredContent.imageURL)
+            ))
 
         case .challenges(let array):
             let challenges = array.map { JoinChallengeCardViewData(dto: $0) }
@@ -71,6 +76,7 @@ extension BookModuleViewData {
                 )
             ]),
             .contentCard(.init(
+                id: "book-featured-content",
                 title: "Find your next favorite class",
                 text: """
                 Try something new this week. From cycling and strength to yoga and dance, \

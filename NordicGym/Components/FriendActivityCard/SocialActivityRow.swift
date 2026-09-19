@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import Tagged
 
 struct SocialActivityRowViewData: Identifiable, Equatable {
-    let id: UUID = .init()
+    let id: SocialActivityID
     let profilePicture: ImageViewData?
     let message: LocalizedStringKey
     let time: String
@@ -18,6 +19,7 @@ struct SocialActivityRowViewData: Identifiable, Equatable {
 extension SocialActivityRowViewData {
     init(dto: SocialActivity) {
         self.init(
+            id: dto.id,
             profilePicture: .remote(from: dto.member.profilePicture),
             message: LocalizedStringKey(dto.message),
             time: dto.date.formatted(.relative(presentation: .named, unitsStyle: .wide)),
@@ -26,12 +28,14 @@ extension SocialActivityRowViewData {
     }
 
     static func previewValue(
+        id: SocialActivityID = "preview-social-activity",
         profilePicture: ImageViewData? = .image(Image(.lift)),
         message: LocalizedStringKey = "**Erling Haaland** did **Rowing**",
         time: String = "3 hours ago",
         isLiked: Bool = false
     ) -> Self {
         .init(
+            id: id,
             profilePicture: profilePicture,
             message: message,
             time: time,
@@ -42,6 +46,7 @@ extension SocialActivityRowViewData {
 
 struct SocialActivityRow: View {
     let viewData: SocialActivityRowViewData
+    @ScaledMetric(relativeTo: .body) private var avatarSize: CGFloat = 44
 
     var body: some View {
         HStack(spacing: .spacingS) {
@@ -55,29 +60,35 @@ struct SocialActivityRow: View {
                         Color.gray
                     }
                 }
-                .frame(width: 48, height: 48)
+                .frame(width: avatarSize, height: avatarSize)
                 .clipShape(Circle())
+                .accessibilityHidden(true)
 
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: .spacingXXS) {
                 Text(viewData.message)
-                Text(viewData.time).foregroundStyle(.secondary)
+                    .font(.body)
+                Text(viewData.time)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
 
             Image(systemName: "hand.thumbsup")
-                .bold()
-                .font(.title2)
+                .font(.headline)
                 .foregroundStyle(.accent)
-                .padding(.spacingM)
+                .padding(.spacingXS)
                 .symbolVariant(viewData.isLiked ? .fill : .none)
+                .accessibilityLabel(viewData.isLiked ? "Liked" : "Not liked")
         }
+        .padding(.vertical, .spacingS)
+        .accessibilityElement(children: .combine)
     }
 }
 
 #Preview(traits: .sizeThatFitsLayout) {
     VStack {
-        SocialActivityRow(viewData: .previewValue())
-        SocialActivityRow(viewData: .previewValue(isLiked: true))
+        SocialActivityRow(viewData: .previewValue(id: "preview-activity-1"))
+        SocialActivityRow(viewData: .previewValue(id: "preview-activity-2", isLiked: true))
     }
     .padding()
 }
