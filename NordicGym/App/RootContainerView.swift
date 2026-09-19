@@ -38,6 +38,7 @@ struct RootContainerView: View {
                 Label("Profile", systemImage: "person")
             }
         }
+        .tint(.accent)
     }
 }
 

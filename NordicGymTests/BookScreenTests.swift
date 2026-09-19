@@ -6,8 +6,7 @@ import SnapshotTesting
 @MainActor @Suite struct `Book Screen Snapshots` {
     @Test(arguments: SnapshotVariant.defaultVariants(checkAccessibility: true))
     func `booking landing content`(variant: SnapshotVariant) async throws {
-        let view = NavigationStack { BookScreen() }
-            .environment(\.dataClient, .init(fetchBookContent: { BookModuleViewData.previewModules }))
+        let view = NavigationStack { BookScreen() }.environment(\.dataClient, .test())
         expectSnapshot(of: view, on: variant)
     }
 

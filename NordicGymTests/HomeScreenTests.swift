@@ -43,15 +43,13 @@ import SnapshotTesting
         let view = NavigationStack {
             HomeScreen()
         }.environment(
-            \.dataClient,
-             .init(
-                fetchHomeContent: {
-                    [
-                        .upcomingWorkouts([]),
-                        .contentCard(.previewValue())
-                    ]
-                }
-             )
+            \.dataClient.fetchHomeContent,
+             {
+                 [
+                    .upcomingWorkouts([]),
+                    .contentCard(.previewValue())
+                 ]
+             }
         )
         expectSnapshot(of: view, on: variant)
     }

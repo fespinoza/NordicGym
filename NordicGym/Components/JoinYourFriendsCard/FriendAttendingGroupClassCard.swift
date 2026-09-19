@@ -42,7 +42,7 @@ struct FriendAttendingGroupClassCard: View {
         .padding(.spacingXS)
         .background {
             RoundedRectangle(cornerRadius: .cornerRadiusM + .spacingXS)
-                .foregroundStyle(Color.joinYourFriendsBackground)
+                .foregroundStyle(Color(uiColor: .secondarySystemBackground))
         }
     }
 }

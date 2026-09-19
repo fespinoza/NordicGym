@@ -13,8 +13,6 @@ struct GroupClassScreen: View {
         } fetchData: {
             try await fetchGroupClass(id)
         }
-        .background(.black)
-        .foregroundStyle(.white)
     }
 }
 

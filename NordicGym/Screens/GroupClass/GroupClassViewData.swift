@@ -104,7 +104,7 @@ extension GroupClassViewData {
         """,
         intensity: ClassIntensity = .moderate,
         categoryName: String = "Strength",
-        categoryImage: ImageViewData? = nil,
+        categoryImage: ImageViewData? = .image(Image(.lift)),
         date: String = "Sept 14, 14:15",
         duration: String = "45 min",
         location: String = "Oslo",

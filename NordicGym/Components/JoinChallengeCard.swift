@@ -69,6 +69,7 @@ struct JoinChallengeCard: View {
                 Text("Join")
             }
             .buttonStyle(.borderedProminent)
+            .tint(.accent)
         }
         .frame(maxWidth: 180)
         .fixedSize(horizontal: false, vertical: true)

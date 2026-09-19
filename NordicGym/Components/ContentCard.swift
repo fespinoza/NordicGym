@@ -71,7 +71,7 @@ struct ContentCard: View {
             .frame(width: imageSize)
             .clipped()
         }
-        .background { Color.cardBackground }
+        .background { Color(uiColor: .secondarySystemBackground) }
         .clipShape(RoundedRectangle(cornerRadius: .cornerRadiusM))
     }
 }

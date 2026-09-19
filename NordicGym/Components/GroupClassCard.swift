@@ -107,7 +107,7 @@ struct GroupClassCard: View {
                     }
                 }
             }
-            .background(Color.cardBackground)
+            .background(Color(uiColor: .secondarySystemBackground))
             .clipShape(RoundedRectangle(cornerRadius: .cornerRadiusM))
         }
     }

@@ -9,9 +9,9 @@ import Foundation
 import Tagged
 
 struct DataClient {
-    let fetchHomeContent: () async throws -> [HomeModuleViewData]
-    let fetchBookContent: () async throws -> [BookModuleViewData]
-    let fetchGroupClass: (GroupClassID) async throws -> GroupClassViewData
+    var fetchHomeContent: () async throws -> [HomeModuleViewData]
+    var fetchBookContent: () async throws -> [BookModuleViewData]
+    var fetchGroupClass: (GroupClassID) async throws -> GroupClassViewData
 
     static func fauxLive() -> Self {
         bridgeClient(networkingClient: .fauxLive())
@@ -58,9 +58,9 @@ struct DataClient {
 }
 
 struct NetworkingClient {
-    let fetchHomeContent: () async throws -> [HomeModule]
-    let fetchBookContent: () async throws -> [BookModule]
-    let fetchGroupClass: (GroupClassID) async throws -> GroupClass
+    var fetchHomeContent: () async throws -> [HomeModule]
+    var fetchBookContent: () async throws -> [BookModule]
+    var fetchGroupClass: (GroupClassID) async throws -> GroupClass
 
     static func fauxLive() -> Self {
         mockClient(sleeps: true)

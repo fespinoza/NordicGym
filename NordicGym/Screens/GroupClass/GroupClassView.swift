@@ -7,12 +7,13 @@ struct GroupClassView: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     private let highlight = Color(red: 1, green: 0.32, blue: 0.19)
-    private let informationColor = Color(red: 0.48, green: 0.72, blue: 0.86)
+    private let informationColor = Color.primary
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
                 header
+                    .foregroundStyle(.white)
 
                 VStack(alignment: .leading, spacing: .spacingXL) {
                     classInformation
@@ -20,10 +21,15 @@ struct GroupClassView: View {
                         .onGeometryChange(for: Bool.self) { geometry in
                             geometry.frame(in: .named("classDetailScroll")).maxY < 0
                         } action: { showsBookingBar = $0 }
-                    guidance
                 }
                 .padding(.spacingM)
                 .padding(.top, .spacingS)
+                .background { Color.black }
+                .foregroundStyle(.white)
+
+                guidance
+                    .padding(.spacingM)
+                    .padding(.top, .spacingS)
 
                 friends
                     .padding(.top, .spacingXS)
@@ -56,8 +62,10 @@ struct GroupClassView: View {
                         }
                         .padding(.spacingM)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(Color(red: 0.04, green: 0.12, blue: 0.18),
-                                    in: RoundedRectangle(cornerRadius: .cornerRadiusM))
+                        .background(
+                            Color(uiColor: .secondarySystemBackground),
+                            in: RoundedRectangle(cornerRadius: .cornerRadiusM)
+                        )
                     }
                 }
             }
@@ -69,13 +77,11 @@ struct GroupClassView: View {
                 persistentBookingBar
             }
         }
-        .background(.black)
-        .foregroundStyle(.white)
         .ignoresSafeArea(edges: .top)
         .toolbarTitleDisplayMode(.inline)
         .toolbarBackground(.hidden, for: .navigationBar)
         .toolbarColorScheme(.dark, for: .navigationBar)
-        .tint(highlight)
+        .tint(.accent)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 ShareLink(
@@ -103,7 +109,7 @@ struct GroupClassView: View {
 
             Text("with \(viewData.instructorName)")
                 .font(.title3)
-                .foregroundStyle(highlight)
+                .foregroundStyle(.onBlackAccent)
         }
         .padding(.horizontal, .spacingM)
         .padding(.top, .spacingXXL)
@@ -143,9 +149,9 @@ struct GroupClassView: View {
         )
 
         return LazyVGrid(columns: columns, alignment: .leading, spacing: .spacingL) {
-            informationRow(viewData.date, icon: "calendar.badge.clock", color: highlight)
+            informationRow(viewData.date, icon: "calendar.badge.clock", color: .onBlackAccent)
             informationRow(viewData.duration, icon: "clock")
-            informationRow(viewData.location, icon: "mappin.and.ellipse", color: highlight)
+            informationRow(viewData.location, icon: "mappin.and.ellipse", color: .onBlackAccent)
             informationRow(viewData.room, icon: "door.left.hand.open")
         }
     }
@@ -187,9 +193,17 @@ struct GroupClassView: View {
 
     private var guidance: some View {
         VStack(alignment: .leading, spacing: .spacingL) {
-            informationRow("Check in 10 minutes before the class starts to secure your spot.", icon: "info.circle", color: informationColor)
-            informationRow("Cancel at least 2 hours before the class starts.", icon: "alarm", color: informationColor)
-            informationRow("Your ticket appears under \"Check in\" in the app 3 hours before the class starts. Your waiting list position will also appear there.", icon: "ticket", color: informationColor)
+            informationRow(
+                "Check in 10 minutes before the class starts to secure your spot.",
+                icon: "info.circle",
+                color: .information
+            )
+            informationRow("Cancel at least 2 hours before the class starts.", icon: "alarm", color: .information)
+            informationRow(
+                "Your ticket appears under \"Check in\" in the app 3 hours before the class starts. Your waiting list position will also appear there.",
+                icon: "ticket",
+                color: .information
+            )
         }
     }
 
@@ -199,12 +213,11 @@ struct GroupClassView: View {
                 HStack(spacing: .spacingS) {
                     Image(systemName: "person.crop.circle.fill")
                         .font(.largeTitle)
-                        .foregroundStyle(informationColor)
                         .accessibilityHidden(true)
                     Text(friend.fullName)
                     Spacer()
                     Text("Going!")
-                        .foregroundStyle(.mint)
+                        .foregroundStyle(.success)
                 }
                 .font(.subheadline)
             }
@@ -212,14 +225,13 @@ struct GroupClassView: View {
             Button(action: {}) {
                 Text("Invite friends")
                     .font(.subheadline.bold())
-                    .padding(.spacingS)
-                    .overlay(RoundedRectangle(cornerRadius: .cornerRadiusS).stroke(.white, lineWidth: 1))
+                    .padding(.spacingXS)
             }
-            .tint(.white)
+            .buttonStyle(.bordered)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.spacingM)
-        .background(Color(red: 0.04, green: 0.12, blue: 0.18))
+        .background(Color(uiColor: .secondarySystemBackground))
     }
 
     private var persistentBookingBar: some View {
@@ -233,7 +245,7 @@ struct GroupClassView: View {
                     .font(.subheadline.bold())
                 Text(viewData.availableSpots == 1 ? "1 spot available" : "\(viewData.availableSpots) spots available")
                     .font(.caption)
-                    .foregroundStyle(.mint)
+                    .foregroundStyle(.success)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
 
@@ -265,7 +277,7 @@ struct GroupClassView: View {
     private var intensityLabels: some View {
         ForEach(ClassIntensity.allCases, id: \.self) { intensity in
             Text(intensity.rawValue)
-                .foregroundStyle(intensity == viewData.intensity ? .white : .gray)
+                .foregroundStyle(intensity == viewData.intensity ? .primary : .secondary)
                 .fontWeight(intensity == viewData.intensity ? .semibold : .regular)
                 .fixedSize()
         }
@@ -293,6 +305,7 @@ struct GroupClassView: View {
                 }
             }
             .clipShape(RoundedRectangle(cornerRadius: .cornerRadiusM))
+            .foregroundStyle(.white)
     }
 
     private func section<Content: View>(_ title: String, @ViewBuilder content: () -> Content) -> some View {
@@ -304,5 +317,11 @@ struct GroupClassView: View {
         }
         .padding(.horizontal, .spacingM)
         .padding(.top, .spacingL)
+    }
+}
+
+#Preview {
+    NavigationStack {
+        GroupClassView(viewData: .previewValue())
     }
 }
