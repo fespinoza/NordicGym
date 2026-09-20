@@ -78,7 +78,7 @@ struct NetworkingClient {
     private static func mockClient(sleeps: Bool) -> Self {
         .init {
             try await randomlySleeps(isActive: sleeps)
-            let homeContent: HomeContent = try fixtureFile(fileName: "home-sample")
+            let homeContent: HomeContent = try fixtureFile(fileName: homeFixtureFileName())
             return homeContent.items
         } fetchBookContent: {
             try await randomlySleeps(isActive: sleeps)
@@ -88,6 +88,12 @@ struct NetworkingClient {
             try await randomlySleeps(isActive: sleeps)
             return try fixtureFile(fileName: "group-class-\(id.rawValue)")
         }
+    }
+
+    private static func homeFixtureFileName(locale: Locale = .current) -> String {
+        let norwegianLanguageCodes = ["no", "nb", "nn"]
+        let languageCode = locale.language.languageCode?.identifier
+        return norwegianLanguageCodes.contains(languageCode ?? "") ? "home-sample-no" : "home-sample"
     }
 
     init(
