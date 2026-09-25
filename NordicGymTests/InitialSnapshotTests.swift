@@ -5,7 +5,7 @@ import Testing
 
 @MainActor
 @Suite
-struct `Home Screen Snapshots` {
+struct `Initial Snapshots` {
     @Test func `sample content`() async throws {
         let view = NavigationStack {
             HomeScreen()
@@ -16,8 +16,8 @@ struct `Home Screen Snapshots` {
     }
 }
 
-extension `Home Screen Snapshots` {
-    @Test func `sample content - norwegian`() async throws {
+extension `Initial Snapshots` {
+    @Test func `sample content in Norwegian`() async throws {
         let view = NavigationStack {
             HomeScreen()
         }
