@@ -10,18 +10,28 @@ struct `Home Screen Snapshots` {
         let view = NavigationStack {
             HomeScreen()
         }
-        .environment(\.networkingClient, .test())
+        .environment(\.dataClient, .test())
 
         assertSnapshot(of: view, as: .image)
     }
 }
 
 extension `Home Screen Snapshots` {
+    @Test func `sample content - norwegian`() async throws {
+        let view = NavigationStack {
+            HomeScreen()
+        }
+        .environment(\.dataClient, .test())
+        .environment(\.locale, .init(identifier: "nb"))
+
+        assertSnapshot(of: view, as: .image)
+    }
+
     @Test func `sample content - accessibility`() async throws {
         let view = NavigationStack {
             HomeScreen()
         }
-        .environment(\.networkingClient, .test())
+            .environment(\.dataClient, .test())
 
         assertSnapshot(
             of: view,
@@ -35,7 +45,7 @@ extension `Home Screen Snapshots` {
         let view = NavigationStack {
             HomeScreen()
         }
-        .environment(\.networkingClient, .test())
+        .environment(\.dataClient, .test())
 
         assertSnapshot(of: view, as: .image(layout: .fixed(width: 402, height: 1800)))
     }
@@ -44,7 +54,7 @@ extension `Home Screen Snapshots` {
         let view = NavigationStack {
             HomeScreen()
         }
-        .environment(\.networkingClient, .test())
+        .environment(\.dataClient, .test())
 
         assertSnapshot(
             of: view,
@@ -59,7 +69,7 @@ extension `Home Screen Snapshots` {
         let view = NavigationStack {
             HomeScreen()
         }
-        .environment(\.networkingClient, .test())
+        .environment(\.dataClient, .test())
         .environment(\.colorScheme, .dark)
 
         assertSnapshot(
@@ -72,7 +82,7 @@ extension `Home Screen Snapshots` {
         let view = NavigationStack {
             HomeScreen()
         }
-        .environment(\.networkingClient, .test())
+        .environment(\.dataClient, .test())
         .environment(\.colorScheme, .dark)
 
         assertSnapshot(
@@ -85,7 +95,7 @@ extension `Home Screen Snapshots` {
         let view = NavigationStack {
             HomeScreen()
         }
-        .environment(\.networkingClient, .test())
+        .environment(\.dataClient, .test())
         .environment(\.colorScheme, .dark)
 
         assertSnapshot(
@@ -98,7 +108,7 @@ extension `Home Screen Snapshots` {
         let view = NavigationStack {
             HomeScreen()
         }
-        .environment(\.networkingClient, .test())
+        .environment(\.dataClient, .test())
         .environment(\.colorScheme, .light)
 
         assertSnapshot(
@@ -111,7 +121,7 @@ extension `Home Screen Snapshots` {
         let view = NavigationStack {
             HomeScreen()
         }
-        .environment(\.networkingClient, .test())
+        .environment(\.dataClient, .test())
         .environment(\.colorScheme, .light)
 
         assertSnapshot(
