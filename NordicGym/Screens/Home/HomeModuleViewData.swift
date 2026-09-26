@@ -148,7 +148,7 @@ extension HomeModuleViewData {
                         location: "Akersgata",
                         duration: "45 min",
                         bookingState: .notBooked,
-                        backgroundImage: .image(Image(.bookCyclingInterval))
+                        backgroundImage: nil//.image(Image(.bookCyclingInterval))
                     )
                 ),
                 .init(
@@ -163,7 +163,7 @@ extension HomeModuleViewData {
                         location: "Majorstuen",
                         duration: "60 min",
                         bookingState: .notBooked,
-                        backgroundImage: .image(Image(.bookMorningYoga))
+                        backgroundImage: nil//.image(Image(.bookMorningYoga))
                     )
                 ),
                 .init(
@@ -178,7 +178,7 @@ extension HomeModuleViewData {
                         location: "Nydalen",
                         duration: "30 min",
                         bookingState: .notBooked,
-                        backgroundImage: .image(Image(.bookStrengthExpress))
+                        backgroundImage: nil//.image(Image(.bookStrengthExpress))
                     )
                 ),
                 .init(
@@ -193,7 +193,7 @@ extension HomeModuleViewData {
                         location: "Ringnes Park",
                         duration: "50 min",
                         bookingState: .notBookedOnWaitingList,
-                        backgroundImage: .image(Image(.bookDanceEnergy))
+                        backgroundImage: nil//.image(Image(.bookDanceEnergy))
                     )
                 )
             ]),

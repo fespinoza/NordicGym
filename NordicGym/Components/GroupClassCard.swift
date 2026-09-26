@@ -15,7 +15,7 @@ struct GroupClassCardViewData: Identifiable, Equatable {
     let location: String
     let duration: String
     let bookingState: BookingState
-    let backgroundImage: ImageViewData?
+    let backgroundImage: URL?
 
     static func previewValue(
         id: GroupClassID = .previewValue(),
@@ -24,7 +24,7 @@ struct GroupClassCardViewData: Identifiable, Equatable {
         location: String = "Akersgata",
         duration: String = "45 min",
         bookingState: BookingState = .notBooked,
-        backgroundImage: ImageViewData? = nil
+        backgroundImage: URL? = nil
     ) -> Self {
         .init(
             id: id,
@@ -47,7 +47,7 @@ extension GroupClassCardViewData {
             location: dto.location,
             duration: dto.durationInMinutes.formatted() + " min",
             bookingState: dto.bookingState,
-            backgroundImage: .remote(from: dto.imageURL)
+            backgroundImage: dto.imageURL
         )
     }
 }
@@ -99,12 +99,12 @@ struct GroupClassCard: View {
                 .frame(height: 48)
             }
             .background {
-                if let backgroundImage = viewData.backgroundImage {
-                    CustomAsyncImage(state: backgroundImage) { image in
+                AsyncImage(url: viewData.backgroundImage) { image in
                         image
                             .resizable()
                             .scaledToFill()
-                    }
+                } placeholder: {
+                    Color.gray
                 }
             }
             .background(Color(uiColor: .secondarySystemBackground))

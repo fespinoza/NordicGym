@@ -40,7 +40,7 @@ extension BookModuleViewData {
                     location: "Akersgata",
                     duration: "45 min",
                     bookingState: .notBooked,
-                    backgroundImage: .image(Image(.bookCyclingInterval))
+                    backgroundImage: nil// .image(Image(.bookCyclingInterval))
                 ),
                 .init(
                     id: "yoga-morning-20260912-0900",
@@ -49,7 +49,7 @@ extension BookModuleViewData {
                     location: "Majorstuen",
                     duration: "60 min",
                     bookingState: .notBooked,
-                    backgroundImage: .image(Image(.bookMorningYoga))
+                    backgroundImage: nil//.image(Image(.bookMorningYoga))
                 ),
                 .init(
                     id: "strength-express-20260912-1200",
@@ -58,7 +58,7 @@ extension BookModuleViewData {
                     location: "Nydalen",
                     duration: "30 min",
                     bookingState: .notBooked,
-                    backgroundImage: .image(Image(.bookStrengthExpress))
+                    backgroundImage: nil//.image(Image(.bookStrengthExpress))
                 ),
                 .init(
                     id: "dance-energy-20260913-1600",
@@ -67,7 +67,7 @@ extension BookModuleViewData {
                     location: "Ringnes Park",
                     duration: "50 min",
                     bookingState: .notBookedOnWaitingList,
-                    backgroundImage: .image(Image(.bookDanceEnergy))
+                    backgroundImage: nil//.image(Image(.bookDanceEnergy))
                 )
             ]),
             .contentCard(.init(

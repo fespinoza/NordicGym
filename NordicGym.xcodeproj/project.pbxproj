@@ -24,6 +24,7 @@
 /* Begin PBXFileReference section */
 		000000000000000000000120 /* NordicGym.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NordicGym.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B5E59C7305C1840009BA6D0 /* NordicGymTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NordicGymTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9BE9F77E3067AEE6006650DE /* NordicGym.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = NordicGym.xctestplan; path = TestPlans/NordicGym.xctestplan; sourceTree = "<group>"; };
 		9BEEE8B63050AC770066F5C6 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -36,6 +37,11 @@
 		9B5E59C8305C1840009BA6D0 /* NordicGymTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = NordicGymTests;
+			sourceTree = "<group>";
+		};
+		9BE9F77D3067AEB2006650DE /* TestPlans */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = TestPlans;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -59,6 +65,8 @@
 		000000000000000000000001 = {
 			isa = PBXGroup;
 			children = (
+				9BE9F77E3067AEE6006650DE /* NordicGym.xctestplan */,
+				9BE9F77D3067AEB2006650DE /* TestPlans */,
 				000000000000000000000010 /* NordicGym */,
 				9B5E59C8305C1840009BA6D0 /* NordicGymTests */,
 				9BEEE8A83050A7570066F5C6 /* Frameworks */,
@@ -98,6 +106,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				000000000000000000000010 /* NordicGym */,
+				9BE9F77D3067AEB2006650DE /* TestPlans */,
 			);
 			name = NordicGym;
 			packageProductDependencies = (

@@ -1,0 +1,33 @@
+{
+  "configurations" : [
+    {
+      "id" : "6751FD35-4EF1-4446-955C-903F28668266",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "language" : "en",
+    "performanceAntipatternCheckerEnabled" : true,
+    "region" : "NO",
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:NordicGym.xcodeproj",
+      "identifier" : "000000000000000100000000",
+      "name" : "NordicGym"
+    },
+    "testInteropMode" : "complete"
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:NordicGym.xcodeproj",
+        "identifier" : "9B5E59C6305C1840009BA6D0",
+        "name" : "NordicGymTests"
+      }
+    }
+  ],
+  "version" : 1
+}

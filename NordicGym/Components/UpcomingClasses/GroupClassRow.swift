@@ -29,24 +29,27 @@ struct GroupClassRowViewData: Identifiable, Equatable {
     }
 }
 
-extension GroupClassRowViewData {
-    init(dto: UpcomingGroupClass) {
-        let bookingState: BookingStateViewData
-        switch dto.bookingState {
+extension GroupClassRowViewData.BookingStateViewData {
+    init(dto: BookingState, availableSpots: Int) {
+        switch dto {
         case .booked:
-            bookingState = .init(message: "Booked", imageName: "checkmark", foregroundColor: .success)
+            self = .init(message: "Booked", imageName: "checkmark", foregroundColor: .success)
         case .bookedOnWaitingList:
-            bookingState = .init(message: "On the waiting list", imageName: "clock", foregroundColor: .waitingList)
+            self = .init(message: "On the waiting list", imageName: "clock", foregroundColor: .waitingList)
         case .notBooked:
-            bookingState = .init(
-                message: dto.availableSpots.formatted() + " spots available",
+            self = .init(
+                message: availableSpots.formatted() + " spots available",
                 imageName: "plus",
                 foregroundColor: .accent
             )
         case .notBookedOnWaitingList:
-            bookingState = .init(message: "Join the waiting list", imageName: "clock", foregroundColor: .waitingList)
+            self = .init(message: "Join the waiting list", imageName: "clock", foregroundColor: .waitingList)
         }
+    }
+}
 
+extension GroupClassRowViewData {
+    init(dto: UpcomingGroupClass) {
         self.init(
             id: dto.id,
             className: dto.name,
@@ -54,7 +57,10 @@ extension GroupClassRowViewData {
             location: dto.location,
             time: dto.dateTime.formatted(date: .omitted, time: .shortened),
             duration: dto.durationInMinutes.formatted() + " min",
-            bookingState: bookingState
+            bookingState: .init(
+                dto: dto.bookingState,
+                availableSpots: dto.availableSpots
+            )
         )
     }
 
