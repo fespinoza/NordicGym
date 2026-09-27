@@ -65,11 +65,11 @@ struct ContentCard: View {
                 image
                     .resizable()
                     .scaledToFill()
+                    .frame(width: imageSize)
+                    .clipped()
             } placeholder: {
                 EmptyView()
             }
-            .frame(width: imageSize)
-            .clipped()
         }
         .background { Color.cardBackground }
         .clipShape(RoundedRectangle(cornerRadius: .cornerRadiusM))

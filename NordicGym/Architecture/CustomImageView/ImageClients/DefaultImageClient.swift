@@ -8,6 +8,7 @@ class DefaultImageClient: ImageClient {
     func loadImage(with url: URL) async throws -> Image {
         let (imageData, _) = try await URLSession.shared.data(from: url)
         guard let uiImage = UIImage(data: imageData) else { throw ImageError.decodeError }
+        try await Task.sleep(for: .seconds((1...3).randomElement() ?? 1))
         return Image(uiImage: uiImage)
     }
 

@@ -45,18 +45,15 @@ struct SocialActivityRow: View {
 
     var body: some View {
         HStack(spacing: .spacingS) {
-            Color.secondary
-                .overlay {
-                    AsyncImage(url: viewData.profilePictureURL) { image in
-                        image
-                            .resizable()
-                            .scaledToFill()
-                    } placeholder: {
-                        Color.gray
-                    }
-                }
-                .frame(width: 48, height: 48)
-                .clipShape(Circle())
+            AsyncImage(url: viewData.profilePictureURL) { image in
+                image
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 48, height: 48)
+                    .clipShape(Circle())
+            } placeholder: {
+                Color.gray
+            }
 
             VStack(alignment: .leading) {
                 Text(viewData.message)
