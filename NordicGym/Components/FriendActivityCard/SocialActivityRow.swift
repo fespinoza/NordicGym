@@ -49,11 +49,11 @@ struct SocialActivityRow: View {
                 image
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 48, height: 48)
-                    .clipShape(Circle())
             } placeholder: {
                 Color.gray
             }
+            .frame(width: 48, height: 48)
+            .clipShape(Circle())
 
             VStack(alignment: .leading) {
                 Text(viewData.message)

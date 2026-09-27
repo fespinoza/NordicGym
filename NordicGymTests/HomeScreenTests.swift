@@ -1,9 +1,10 @@
-@testable import NordicGym
 import Testing
-import SwiftUI
 import SnapshotTesting
+import SwiftUI
+@testable import NordicGym
 
-@MainActor @Suite struct `Home Screen Snapshots` {
+@MainActor
+@Suite struct `Home Screen Snapshots` {
     @Test func `sample content`() async throws {
         let view = NavigationStack {
             HomeScreen()
@@ -13,15 +14,65 @@ import SnapshotTesting
         assertSnapshot(of: view, as: .image)
     }
 
-    @Test func `sample content - accessibility`() async throws {
+    @Test func `complete content`() async throws {
         let view = NavigationStack {
             HomeScreen()
         }
         .environment(\.networkingClient, .test())
+        .environment(\.colorScheme, .dark)
 
         assertSnapshot(
             of: view,
-            as: .image( 
+            as: .image(
+                layout: .fixed(
+                    width: 402,
+                    height: 1800
+                )
+            )
+        )
+    }
+
+    @Test func `sample content - iPad portrait split 2 thirds`() async throws {
+        let view = NavigationStack {
+            HomeScreen()
+        }
+        .environment(\.networkingClient, .test())
+        .environment(\.colorScheme, .dark)
+
+        assertSnapshot(
+            of: view,
+            as: .image(
+                layout: .device(
+                    config: .iPadPro11(
+                        .portrait(
+                            splitView: .twoThirds
+                        )
+                    )
+                ),
+                traits: .iPadPro11
+            )
+        )
+    }
+
+    @Test func `sample content - norwegian`() async throws {
+        let view = NavigationStack {
+            HomeScreen()
+        }
+        .environment(\.networkingClient, .test())
+        .environment(\.locale, .init(identifier: "nb"))
+
+        assertSnapshot(of: view, as: .image)
+    }
+
+    @Test func `sample content - accessibility`() async throws {
+        let view = NavigationStack {
+            HomeScreen()
+        }
+            .environment(\.networkingClient, .test())
+
+        assertSnapshot(
+            of: view,
+            as: .image(
                 traits: .init(preferredContentSizeCategory: .accessibilityExtraExtraLarge)
             )
         )
@@ -115,4 +166,5 @@ import SnapshotTesting
             as: .image(layout: .device(config: .iPadPro11(.portrait(splitView: .twoThirds))), traits: .iPadPro11)
         )
     }
+
 }
