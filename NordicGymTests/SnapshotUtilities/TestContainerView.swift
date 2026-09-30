@@ -17,6 +17,7 @@ struct TestContainerView<Content: View>: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(uiColor: .systemBackground))
         .environment(\.dynamicTypeSize, variant.dynamicTypeSize)
         .environment(\.colorScheme, variant.colorScheme)
         .environment(\.locale, variant.locale)

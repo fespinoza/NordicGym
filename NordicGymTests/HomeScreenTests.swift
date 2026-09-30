@@ -3,7 +3,7 @@ import Testing
 import SwiftUI
 import SnapshotTesting
 
-@MainActor @Suite struct `New Home Screen Snapshots` {
+@MainActor @Suite struct `Home Screen Snapshots` {
     @Test(
         arguments: [
             .init(device: .iPhone, colorScheme: .light),
