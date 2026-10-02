@@ -7,17 +7,22 @@ import SnapshotTesting
     @Test(arguments: SnapshotVariant.defaultVariants(checkAccessibility: true))
     func `social row`(variant: SnapshotVariant) async throws {
         let view = VStack {
-            SocialActivityRow(viewData: .previewValue(profilePicture: .loading, isLiked: true))
-            SocialActivityRow(viewData: .previewValue(profilePicture: .image(Image(.homeErikPortrait)), isLiked: false))
-            SocialActivityRow(viewData: .previewValue(profilePicture: .none, isLiked: false))
-            SocialActivityRow(
-                viewData: .previewValue(
-                    message: "**Diego Fernando Morales Castañada Fernandez** did the most tough class known to mankind"
-                )
-            )
+            row(.previewValue(profilePicture: .loading, isLiked: true))
+            row(.previewValue(profilePicture: .image(Image(.homeErikPortrait)), isLiked: false))
+            row(.previewValue(profilePicture: .none, isLiked: false))
+            row(.previewValue(
+                message: """
+                **Diego Fernando Morales Castañeda Fernandez** \
+                did the toughest class known to mankind
+                """
+            ))
         }
         .padding()
 
         expectSnapshot(of: view, on: variant)
+    }
+
+    private func row(_ viewData: SocialActivityRowViewData) -> some View {
+        SocialActivityRow(viewData: viewData)
     }
 }
